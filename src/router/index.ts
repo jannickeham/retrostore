@@ -5,6 +5,7 @@ import DetailPage from "../views/DetailPage.vue";
 import AuthenticationPage from "../views/AuthenticationPage.vue";
 import ProfilePage from "../views/ProfilePage.vue";
 import PageNotFoundPage from "../views/PageNotFoundPage.vue";
+import NewProductPage from "../views/NewProductPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,6 +16,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/home",
     name: "Home",
     component: HomePage,
+  },
+  {
+    path: "/new-product",
+    name: "NewProduct",
+    component: NewProductPage,
   },
   {
     path: "/detail/:id",

@@ -101,12 +101,12 @@ http://ionicframework.com/docs/theming/ */
 }
 
 body {
-  --ion-background-color: #535569;
+  --ion-background-color: #353541;
   --ion-background-color-rgb: 83, 85, 105;
 }
 
 .toolbar {
-  --background: #353546;
+  --background: #1f1f27;
   --color: #ffffff;
 }
 /*@media (prefers-color-scheme: dark) {
