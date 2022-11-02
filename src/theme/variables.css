@@ -109,6 +109,33 @@ body {
   --background: #1f1f27;
   --color: #ffffff;
 }
+
+h1 {
+  color: #ffffff;
+}
+
+h2 {
+  color: #ffffff;
+}
+
+h3 {
+  color: #ffffff;
+}
+
+h4 {
+  color: #ffffff;
+}
+
+p {
+  color: #ffffff;
+}
+
+.price-text {
+  font-family: "RetroGaming";
+  color: #ffffff;
+  font-size: x-large !important;
+  padding: 0.4rem !important;
+}
 /*@media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
