@@ -16,7 +16,9 @@ import {
   toastController,
   IonToast,
   IonText,
+  IonIcon,
 } from "@ionic/vue";
+import { saveOutline, addCircleOutline } from "ionicons/icons";
 import { ref } from "vue";
 //import { Camera, CameraResultType } from "@capacitor/camera";
 //import { directus } from "@/services/directus.service";
@@ -118,49 +120,90 @@ const newProduct = ref({
         <ion-buttons slot="start">
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
-        <ion-title>RetroStore</ion-title>
+        <ion-title>Legg til ny vare</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-item>
-        <ion-label position="floating" placeholder="Tittel">Tittel</ion-label>
-        <ion-input placeholder="Tittel" v-model="newProduct.title"></ion-input>
+        <ion-label color="light" position="stacked" placeholder="Tittel"
+          >Tittel</ion-label
+        >
+        <ion-input
+          placeholder="Tittel"
+          v-model="newProduct.title"
+          color="light"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="light" position="stacked" placeholder="Pris"
+          >Pris</ion-label
+        >
+        <ion-input
+          placeholder="Pris"
+          v-model="newProduct.title"
+          color="light"
+        ></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Beskrivelse</ion-label>
+        <ion-label position="stacked" placeholder="Kategori" color="light"
+          >Ny kategori</ion-label
+        >
+        <ion-input placeholder="Gi varen kategorier" color="light"> </ion-input>
+        <ion-button slot="end" size="default"
+          >Legg til<ion-icon
+            :icon="addCircleOutline"
+            size="large"
+            slot="end"
+            color="light"
+          ></ion-icon
+        ></ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="light" position="stacked" placeholder="Sted"
+          >Sted</ion-label
+        >
+        <ion-input
+          placeholder="Sted"
+          v-model="newProduct.title"
+          color="light"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="light" position="stacked">Beskrivelse</ion-label>
         <ion-textarea
-          placeholder="Gi en beskrivelse av varen"
+          color="light"
+          placeholder="Beskrivelse av vare"
           v-model="newProduct.description"
         ></ion-textarea>
       </ion-item>
 
-      <ion-item>
-        <ion-label position="floating" placeholder="Kategori"
-          >Ny kategori</ion-label
-        >
-        <ion-input placeholder="Gi varen kategorier"> </ion-input>
-        <ion-button slot="end" size="default" color="warning">+</ion-button>
-      </ion-item>
-
-      <ion-item
-        ><ion-button
-          shape="round"
-          color="warning"
-          size="small"
-          fill="outline"
-          v-for="category in newProduct.category"
-          :key="category"
-          >{{ category }}</ion-button
-        ></ion-item
+      <ion-button
+        shape="round"
+        color="primary"
+        fill="outline"
+        v-for="category in newProduct.category"
+        :key="category"
+        >{{ category }}</ion-button
       >
 
-      <ion-button color="light" class="image-picker">
+      <ion-button color="#535569" class="image-picker" expand="block">
         Velg fil eller ta bilde
       </ion-button>
       <img :src="newProduct.image" />
-      <ion-button expand="block" color="warning">Legg til salgs</ion-button>
+
+      <ion-button expand="block"
+        >Lagre
+        <ion-icon
+          :icon="saveOutline"
+          size="small"
+          slot="end"
+          color="white"
+        ></ion-icon
+      ></ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -169,8 +212,10 @@ const newProduct = ref({
 .image-picker {
   height: 20vh;
   margin: 10px;
-  border: 2px #7f7f7f dashed;
-  background-color: #131313;
+  border: 2px #535569 dashed;
+  background-color: #535569;
   font-size: medium;
+  color: #ffffff;
+  border-radius: 10px;
 }
 </style>
