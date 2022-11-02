@@ -101,11 +101,10 @@ const map =
       </ion-chip>
 
       <ion-text>
-        <h2 class="ion-margin-start price-text">{{ product.price }},-</h2>
-      </ion-text>
-
-      <ion-text>
         <p class="ion-margin-start">{{ product.description }}</p>
+      </ion-text>
+      <ion-text>
+        <h2 class="ion-margin-start price-text">{{ product.price }},-</h2>
       </ion-text>
 
       <ion-grid>
