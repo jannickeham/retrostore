@@ -26,7 +26,7 @@ const productCardInfo = ref([
     description: "N64 selges billig",
     location: "Oslo",
     price: "1000",
-    hashtags: "nintendo",
+    category: "nintendo",
     imageURL:
       "https://www.looper.com/img/gallery/this-is-the-best-selling-n64-game-of-all-time/l-intro-1649090213.jpg",
   },
@@ -58,12 +58,15 @@ const productCardInfo = ref([
             <ion-icon :icon="locationOutline" size="small"></ion-icon>
             {{ product.location }}
           </ion-card-subtitle>
-          <ion-chip color="primary">{{ product.hashtags }}</ion-chip>
+          <ion-chip color="primary">{{ product.category }}</ion-chip>
         </ion-card-header>
         <ion-card-content>
           <div>
             <p class="ion-float-left price-text">{{ product.price }},-</p>
-            <ion-button class="ion-float-right link" fill="clear"
+            <ion-button
+              class="ion-float-right link"
+              fill="clear"
+              :router-link="'/detail/' + product.id"
               >Se annonse<ion-icon
                 class="icon-arrow ion-float-right"
                 :icon="arrowForwardCircleOutline"
@@ -74,8 +77,6 @@ const productCardInfo = ref([
           </div>
         </ion-card-content>
       </ion-card>
-
-      <ion-button color="primary"> test</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -96,13 +97,6 @@ ion-card-subtitle {
 ion-card-title {
   color: #ffffff;
   margin-bottom: 1rem !important;
-}
-
-.price-text {
-  font-family: "RetroGaming";
-  color: #ffffff;
-  font-size: x-large !important;
-  padding: 0.4rem !important;
 }
 
 .link {
