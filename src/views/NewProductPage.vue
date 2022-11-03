@@ -17,13 +17,17 @@ import {
   IonToast,
   IonText,
   IonIcon,
+  IonFooter,
 } from "@ionic/vue";
 import { saveOutline, addCircleOutline } from "ionicons/icons";
 import { ref } from "vue";
+
 //import { Camera, CameraResultType } from "@capacitor/camera";
 //import { directus } from "@/services/directus.service";
 import { useRouter } from "vue-router";
 import { setErrorHandler } from "ionicons/dist/types/stencil-public-runtime";
+
+import TabBar from "@/components/TabBar.vue";
 
 const router = useRouter();
 
@@ -205,6 +209,9 @@ const newProduct = ref({
         ></ion-icon
       ></ion-button>
     </ion-content>
+    <ion-footer>
+      <TabBar></TabBar>
+    </ion-footer>
   </ion-page>
 </template>
 

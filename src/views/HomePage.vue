@@ -14,14 +14,29 @@ import {
   onIonViewDidEnter,
   IonIcon,
   IonChip,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonFooter,
 } from "@ionic/vue";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { locationOutline, arrowForwardCircleOutline } from "ionicons/icons";
+import TabBar from "@/components/TabBar.vue";
 
 const productCardInfo = ref([
   {
     id: 1,
+    title: "N64 til salgs",
+    description: "N64 selges billig",
+    location: "Oslo",
+    price: "1000",
+    category: "nintendo",
+    imageURL:
+      "https://www.looper.com/img/gallery/this-is-the-best-selling-n64-game-of-all-time/l-intro-1649090213.jpg",
+  },
+  {
+    id: 2,
     title: "N64 til salgs",
     description: "N64 selges billig",
     location: "Oslo",
@@ -78,6 +93,9 @@ const productCardInfo = ref([
         </ion-card-content>
       </ion-card>
     </ion-content>
+    <ion-footer>
+      <TabBar></TabBar>
+    </ion-footer>
   </ion-page>
 </template>
 
