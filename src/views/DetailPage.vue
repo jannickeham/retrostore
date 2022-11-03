@@ -82,7 +82,7 @@ const map =
         <ion-buttons slot="start">
           <ion-back-button default-href="/"></ion-back-button>
         </ion-buttons>
-        <ion-title>RetroStore</ion-title>
+        <ion-title class="retro-text">Retro<span>Store</span></ion-title>
       </ion-toolbar>
     </ion-header>
 
