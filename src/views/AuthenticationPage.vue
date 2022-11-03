@@ -16,7 +16,19 @@ import {
   IonFooter,
 } from "@ionic/vue";
 import TabBar from "@/components/TabBar.vue";
+import { logInOutline, createOutline } from "ionicons/icons";
+import { ref } from "vue";
+
 //retro mario image https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png
+
+let registerUser = ref(false);
+const isNewUser = () => {
+  if (registerUser.value == false) {
+    registerUser.value = true;
+  } else {
+    registerUser.value = false;
+  }
+};
 </script>
 
 <template>
@@ -39,7 +51,7 @@ import TabBar from "@/components/TabBar.vue";
       </div>
 
       <div class="login-container">
-        <ion-item>
+        <ion-item v-if="registerUser">
           <ion-label color="light" position="stacked" placeholder="Navn"
             >Navn</ion-label
           >
@@ -62,7 +74,21 @@ import TabBar from "@/components/TabBar.vue";
           ></ion-input>
         </ion-item>
       </div>
-      <ion-button class="login-btn" expand="block">Logg inn</ion-button>
+      <ion-button class="login-btn" expand="block"
+        >Logg inn<ion-icon
+          class="icon-white"
+          :icon="logInOutline"
+          size="large"
+          slot="end"
+        ></ion-icon
+      ></ion-button>
+      <ion-button
+        @click="isNewUser"
+        class="register-btn"
+        expand="block"
+        fill="clear"
+        >Registrer ny bruker</ion-button
+      >
     </ion-content>
     <ion-footer>
       <TabBar></TabBar>
@@ -71,12 +97,16 @@ import TabBar from "@/components/TabBar.vue";
 </template>
 
 <style>
+.icon-primary {
+  color: #e85112;
+}
+
 .login-btn {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 .mario-img {
-  width: 10rem;
+  width: 9rem;
   height: auto;
 }
 
@@ -92,5 +122,10 @@ import TabBar from "@/components/TabBar.vue";
 
 span {
   color: #e85112;
+}
+
+.register-btn {
+  text-decoration: underline;
+  color: #ffffff;
 }
 </style>
