@@ -37,7 +37,7 @@ console.log(currentRoute);
           ><ion-icon
             :icon="homeOutline"
             size="large"
-            class="tabbar-item"
+            class="tab-icon"
           ></ion-icon
         ></ion-button>
         Hjem
@@ -47,7 +47,7 @@ console.log(currentRoute);
           ><ion-icon
             :icon="searchOutline"
             size="large"
-            class="tabbar-item"
+            class="tab-icon"
           ></ion-icon
         ></ion-button>
         Søk
@@ -56,8 +56,8 @@ console.log(currentRoute);
         <ion-button router-link="/new-product" fill="clear" size="small"
           ><ion-icon
             :icon="addCircleOutline"
-            :style="styleActiveTab"
             size="large"
+            class="tab-icon"
           ></ion-icon
         ></ion-button>
       </ion-col>
@@ -66,7 +66,7 @@ console.log(currentRoute);
           ><ion-icon
             :icon="chatboxEllipsesOutline"
             size="large"
-            class="tabbar-item"
+            class="tab-icon"
           ></ion-icon
         ></ion-button>
         Chat
@@ -76,7 +76,7 @@ console.log(currentRoute);
           ><ion-icon
             :icon="personOutline"
             size="large"
-            class="tabbar-item"
+            class="tab-icon"
           ></ion-icon
         ></ion-button>
 
@@ -101,7 +101,7 @@ ion-col {
   padding-bottom: 0.5rem !important;
 }
 
-ion-icon {
+.tab-icon {
   color: #ffffff !important;
 }
 
