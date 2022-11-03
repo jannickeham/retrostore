@@ -104,7 +104,7 @@ const map =
         <p class="ion-margin-start">{{ product.description }}</p>
       </ion-text>
       <ion-text>
-        <h2 class="ion-margin-start price-text">{{ product.price }},-</h2>
+        <h2 class="ion-margin-start retro-text">{{ product.price }},-</h2>
       </ion-text>
 
       <ion-grid>

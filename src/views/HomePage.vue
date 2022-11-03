@@ -14,9 +14,6 @@ import {
   onIonViewDidEnter,
   IonIcon,
   IonChip,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
   IonFooter,
 } from "@ionic/vue";
 import { useRouter } from "vue-router";
@@ -70,7 +67,7 @@ const productCardInfo = ref([
         </ion-card-header>
         <ion-card-content>
           <div>
-            <p class="ion-float-left price-text">{{ product.price }},-</p>
+            <p class="ion-float-left retro-text">{{ product.price }},-</p>
             <ion-button
               class="ion-float-right link"
               fill="clear"

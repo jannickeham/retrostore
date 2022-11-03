@@ -8,7 +8,13 @@ import {
   IonButtons,
   IonBackButton,
   IonAvatar,
+  IonButton,
+  IonIcon,
+  IonFooter,
 } from "@ionic/vue";
+import { logOutOutline } from "ionicons/icons";
+
+import TabBar from "@/components/TabBar.vue";
 </script>
 <template>
   <ion-page>
@@ -22,16 +28,31 @@ import {
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <div class="profile-container">
+      <div class="container">
         <ion-avatar class="profile-avatar">
           <img
             alt="Profil picture"
             src="https://ionicframework.com/docs/img/demos/avatar.svg"
           />
         </ion-avatar>
-        <h1 class="profile-name">Navn Navnesen</h1>
+        <h1 class="profile-name retro-text">Navn Navnesen</h1>
+        <p>navn.navnesen@gmail.com</p>
       </div>
+      <div class="container">
+        <div>Mine annonser</div>
+        <div>Mine favoritter</div>
+      </div>
+      <ion-button expand="block"
+        >Logg ut
+        <ion-icon
+          class="icon-white"
+          :icon="logOutOutline"
+          size="large"
+          slot="end"
+        ></ion-icon
+      ></ion-button>
     </ion-content>
+    <ion-footer><TabBar></TabBar></ion-footer>
   </ion-page>
 </template>
 
@@ -41,11 +62,16 @@ import {
   height: auto !important;
 }
 
-.profile-container {
+.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 5rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.icon-white {
+  color: #ffffff !important;
 }
 </style>
