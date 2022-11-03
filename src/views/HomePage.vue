@@ -14,9 +14,6 @@ import {
   onIonViewDidEnter,
   IonIcon,
   IonChip,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
   IonFooter,
 } from "@ionic/vue";
 import { useRouter } from "vue-router";
@@ -53,13 +50,6 @@ const productCardInfo = ref([
     <ion-header :translucent="true">
       <ion-toolbar class="toolbar">
         <ion-title>RetroStore</ion-title>
-        <ion-button
-          slot="end"
-          shape="round"
-          color="bgm"
-          router-link="/new-product"
-          >+</ion-button
-        >
       </ion-toolbar>
     </ion-header>
 
@@ -77,7 +67,7 @@ const productCardInfo = ref([
         </ion-card-header>
         <ion-card-content>
           <div>
-            <p class="ion-float-left price-text">{{ product.price }},-</p>
+            <p class="ion-float-left retro-text">{{ product.price }},-</p>
             <ion-button
               class="ion-float-right link"
               fill="clear"
