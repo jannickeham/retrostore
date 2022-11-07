@@ -49,7 +49,7 @@ const productCardInfo = ref([
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar class="toolbar">
-        <ion-title>RetroStore</ion-title>
+        <ion-title class="retro-text">Retro<span>Store</span></ion-title>
       </ion-toolbar>
     </ion-header>
 

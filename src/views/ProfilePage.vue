@@ -52,7 +52,9 @@ import TabBar from "@/components/TabBar.vue";
         ></ion-icon
       ></ion-button>
     </ion-content>
-    <ion-footer><TabBar></TabBar></ion-footer>
+    <ion-footer>
+      <TabBar></TabBar>
+    </ion-footer>
   </ion-page>
 </template>
 
