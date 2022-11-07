@@ -10,24 +10,26 @@ import {
   IonButton,
 } from "@ionic/vue";
 import {
-  homeOutline,
   addCircleOutline,
   searchOutline,
   chatboxEllipsesOutline,
   personOutline,
-  home,
   search,
   chatboxEllipses,
+  gameControllerOutline,
+  gameController,
   person,
   addCircle,
 } from "ionicons/icons";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
+import { ref } from "vue";
 
 // How to get current routing
 //https://stackoverflow.com/questions/65989489/best-way-to-get-current-route-in-vue3-and-vue-router
 
 const route = useRoute();
+let userLoggedIn = ref(false);
 
 const path = computed(() => route.path);
 const currentRoute = path.value;
@@ -38,24 +40,32 @@ console.log(currentRoute);
   <ion-grid :fixed="true">
     <ion-row class="tabbar ion-align-items-center ion-justify-items-center">
       <ion-col>
-        <ion-button router-link="/home" fill="clear" size="small"
+        <ion-button
+          class="column-item-pos"
+          router-link="/home"
+          fill="clear"
+          size="small"
           ><ion-icon
             v-if="currentRoute != '/home'"
-            :icon="homeOutline"
+            :icon="gameControllerOutline"
             size="large"
             class="tab-icon"
           ></ion-icon>
           <ion-icon
             v-if="currentRoute === '/home'"
-            :icon="home"
+            :icon="gameController"
             size="large"
             class="active-color"
           ></ion-icon
         ></ion-button>
-        Hjem
+        Marked
       </ion-col>
       <ion-col>
-        <ion-button router-link="/search" fill="clear" size="small"
+        <ion-button
+          class="column-item-pos"
+          router-link="/search"
+          fill="clear"
+          size="small"
           ><ion-icon
             v-if="currentRoute != '/search'"
             :icon="searchOutline"
@@ -65,8 +75,12 @@ console.log(currentRoute);
         ></ion-button>
         Søk
       </ion-col>
-      <ion-col>
-        <ion-button router-link="/new-product" fill="clear" size="small"
+      <ion-col v-if="userLoggedIn">
+        <ion-button
+          class="column-item-pos"
+          router-link="/new-product"
+          fill="clear"
+          size="small"
           ><ion-icon
             v-if="currentRoute != '/new-product'"
             :icon="addCircleOutline"
@@ -81,8 +95,12 @@ console.log(currentRoute);
           ></ion-icon
         ></ion-button>
       </ion-col>
-      <ion-col>
-        <ion-button router-link="/chat" fill="clear" size="small"
+      <ion-col v-if="userLoggedIn">
+        <ion-button
+          class="column-item-pos"
+          router-link="/chat"
+          fill="clear"
+          size="small"
           ><ion-icon
             v-if="currentRoute != '/chat'"
             :icon="chatboxEllipsesOutline"
@@ -92,8 +110,12 @@ console.log(currentRoute);
         ></ion-button>
         Chat
       </ion-col>
-      <ion-col>
-        <ion-button router-link="/profile" fill="clear" size="small"
+      <ion-col v-if="userLoggedIn">
+        <ion-button
+          router-link="/profile"
+          class="column-item-pos"
+          fill="clear"
+          size="small"
           ><ion-icon
             v-if="currentRoute != '/profile'"
             :icon="personOutline"
@@ -110,11 +132,37 @@ console.log(currentRoute);
 
         Profil
       </ion-col>
+      <ion-col v-if="!userLoggedIn">
+        <ion-button
+          class="column-item-pos"
+          router-link="/login"
+          fill="clear"
+          size="small"
+          ><ion-icon
+            v-if="currentRoute != '/login'"
+            :icon="personOutline"
+            size="large"
+            class="tab-icon"
+          ></ion-icon
+          ><ion-icon
+            v-if="currentRoute === '/login'"
+            :icon="person"
+            size="large"
+            class="active-color"
+          ></ion-icon
+        ></ion-button>
+
+        Logg inn
+      </ion-col>
     </ion-row>
   </ion-grid>
 </template>
 
 <style>
+.column-item-pos {
+  display: flex;
+}
+
 .tabbar {
   background-color: #1f1f27;
   opacity: 0.9;
