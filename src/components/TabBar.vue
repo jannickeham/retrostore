@@ -29,7 +29,7 @@ import { ref } from "vue";
 //https://stackoverflow.com/questions/65989489/best-way-to-get-current-route-in-vue3-and-vue-router
 
 const route = useRoute();
-let userLoggedIn = ref(false);
+let userLoggedIn = ref(true);
 
 const path = computed(() => route.path);
 const currentRoute = path.value;

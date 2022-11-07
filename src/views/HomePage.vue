@@ -16,33 +16,40 @@ import {
   IonChip,
   IonFooter,
 } from "@ionic/vue";
+import { directus } from "@/services/directus.service";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { locationOutline, arrowForwardCircleOutline } from "ionicons/icons";
 import TabBar from "@/components/TabBar.vue";
 
-const productCardInfo = ref([
-  {
-    id: 1,
-    title: "N64 til salgs",
-    description: "N64 selges billig",
-    location: "Oslo",
-    price: "1000",
-    category: "nintendo",
-    imageURL:
-      "https://www.looper.com/img/gallery/this-is-the-best-selling-n64-game-of-all-time/l-intro-1649090213.jpg",
-  },
-  {
-    id: 2,
-    title: "N64 til salgs",
-    description: "N64 selges billig",
-    location: "Oslo",
-    price: "1000",
-    category: "nintendo",
-    imageURL:
-      "https://www.looper.com/img/gallery/this-is-the-best-selling-n64-game-of-all-time/l-intro-1649090213.jpg",
-  },
-]);
+const productCardInfo = ref([]);
+const userAccessToken = localStorage.getItem("auth_token");
+
+onIonViewDidEnter(async () => {
+  console.log(process.env.VUE_APP_DB_CONNECTION);
+  const response = await directus.graphql.items(`
+    query {
+      product {
+        id,
+        title,
+        description,
+        category,
+        price,
+        location,
+        image {
+          id
+        },
+        user_created {
+          first_name
+        }
+      }
+    }
+   `);
+  if (response.status === 200 && response.data) {
+    productCardInfo.value = [...response.data.product];
+    console.log(productCardInfo.value);
+  }
+});
 </script>
 
 <template>
@@ -55,7 +62,9 @@ const productCardInfo = ref([
 
     <ion-content :fullscreen="true">
       <ion-card v-for="product in productCardInfo" :key="product.id">
-        <img :src="product.imageURL" />
+        <img
+          :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}?access_token=${userAccessToken}`"
+        />
         <ion-card-header>
           <ion-card-title>{{ product.title }}</ion-card-title>
 
@@ -63,7 +72,9 @@ const productCardInfo = ref([
             <ion-icon :icon="locationOutline" size="small"></ion-icon>
             {{ product.location }}
           </ion-card-subtitle>
-          <ion-chip color="primary">{{ product.category }}</ion-chip>
+          <ion-chip v-for="c in product.category" :key="c" color="primary">{{
+            c
+          }}</ion-chip>
         </ion-card-header>
         <ion-card-content>
           <div>
