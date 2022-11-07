@@ -9,6 +9,7 @@ import {
 } from "@ionic/vue";
 
 import TabBar from "@/components/TabBar.vue";
+import { gameControllerOutline } from "ionicons/icons";
 
 const landingPageImg =
   "https://sites.google.com/site/pacmangamearcade/_/rsrc/1472842306797/gameplay/overview/Pac-man.png?height=400&width=311";
@@ -28,7 +29,15 @@ const landingPageImg =
       </div>
       <div class="button-container">
         <div class="center-btn">
-          <ion-button router-link="/home">Se marked</ion-button>
+          <ion-button router-link="/home"
+            >Se marked
+            <ion-icon
+              :icon="gameControllerOutline"
+              color="white"
+              size="small"
+              slot="end"
+            ></ion-icon
+          ></ion-button>
           <ion-button class="login-btn" fill="clear">Logg inn</ion-button>
         </div>
       </div>
@@ -60,13 +69,14 @@ const landingPageImg =
 }
 
 span {
-  color: #ffffff;
+  color: #e85112;
 }
 
 .title {
   font-size: 2.5rem;
   font-family: "RetroGaming";
   z-index: 10;
+  color: #ffffff !important;
 }
 
 .center-container {
