@@ -16,7 +16,7 @@ import {
   IonFooter,
 } from "@ionic/vue";
 import TabBar from "@/components/TabBar.vue";
-import { logInOutline, createOutline } from "ionicons/icons";
+import { logInOutline, enterOutline } from "ionicons/icons";
 import { ref } from "vue";
 
 //retro mario image https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png
@@ -74,7 +74,7 @@ const isNewUser = () => {
           ></ion-input>
         </ion-item>
       </div>
-      <ion-button class="login-btn" expand="block"
+      <ion-button v-if="!registerUser" class="login-btn" expand="block"
         >Logg inn<ion-icon
           class="icon-white"
           :icon="logInOutline"
@@ -84,10 +84,34 @@ const isNewUser = () => {
       ></ion-button>
       <ion-button
         @click="isNewUser"
+        v-if="!registerUser"
         class="register-btn"
         expand="block"
         fill="clear"
         >Registrer ny bruker</ion-button
+      >
+      <ion-button
+        class="margin-2"
+        @click="isNewUser"
+        v-if="registerUser"
+        expand="block"
+      >
+        Registrer
+        <ion-icon
+          :icon="enterOutline"
+          color="white"
+          size="small"
+          slot="end"
+        ></ion-icon
+      ></ion-button>
+      <ion-button
+        @click="isNewUser"
+        v-if="registerUser"
+        class="register-btn"
+        expand="block"
+        fill="clear"
+      >
+        Logg inn istedenfor</ion-button
       >
     </ion-content>
     <ion-footer>
@@ -97,6 +121,10 @@ const isNewUser = () => {
 </template>
 
 <style>
+.margin-2 {
+  margin-top: 1rem;
+}
+
 .icon-primary {
   color: #e85112;
 }
