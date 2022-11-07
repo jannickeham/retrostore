@@ -6,11 +6,17 @@ import AuthenticationPage from "../views/AuthenticationPage.vue";
 import ProfilePage from "../views/ProfilePage.vue";
 import PageNotFoundPage from "../views/PageNotFoundPage.vue";
 import NewProductPage from "../views/NewProductPage.vue";
+import LandingPage from "../views/LandingPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    redirect: "/home",
+    redirect: "/welcome",
+  },
+  {
+    path: "/welcome",
+    name: "Welcome",
+    component: LandingPage,
   },
   {
     path: "/home",

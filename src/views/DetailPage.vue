@@ -80,7 +80,7 @@ const map =
     <ion-header :translucent="true">
       <ion-toolbar class="toolbar">
         <ion-buttons slot="start">
-          <ion-back-button default-href="/"></ion-back-button>
+          <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="retro-text">Retro<span>Store</span></ion-title>
       </ion-toolbar>
