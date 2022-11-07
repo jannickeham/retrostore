@@ -15,6 +15,11 @@ import {
   searchOutline,
   chatboxEllipsesOutline,
   personOutline,
+  home,
+  search,
+  chatboxEllipses,
+  person,
+  addCircle,
 } from "ionicons/icons";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
@@ -35,9 +40,16 @@ console.log(currentRoute);
       <ion-col>
         <ion-button router-link="/home" fill="clear" size="small"
           ><ion-icon
+            v-if="currentRoute != '/home'"
             :icon="homeOutline"
             size="large"
             class="tab-icon"
+          ></ion-icon>
+          <ion-icon
+            v-if="currentRoute === '/home'"
+            :icon="home"
+            size="large"
+            class="active-color"
           ></ion-icon
         ></ion-button>
         Hjem
@@ -45,6 +57,7 @@ console.log(currentRoute);
       <ion-col>
         <ion-button router-link="/search" fill="clear" size="small"
           ><ion-icon
+            v-if="currentRoute != '/search'"
             :icon="searchOutline"
             size="large"
             class="tab-icon"
@@ -55,15 +68,23 @@ console.log(currentRoute);
       <ion-col>
         <ion-button router-link="/new-product" fill="clear" size="small"
           ><ion-icon
+            v-if="currentRoute != '/new-product'"
             :icon="addCircleOutline"
             size="large"
-            class="tab-icon"
+            class="active-color"
+          ></ion-icon
+          ><ion-icon
+            v-if="currentRoute === '/new-product'"
+            :icon="addCircle"
+            size="large"
+            class="active-color"
           ></ion-icon
         ></ion-button>
       </ion-col>
       <ion-col>
         <ion-button router-link="/chat" fill="clear" size="small"
           ><ion-icon
+            v-if="currentRoute != '/chat'"
             :icon="chatboxEllipsesOutline"
             size="large"
             class="tab-icon"
@@ -74,9 +95,16 @@ console.log(currentRoute);
       <ion-col>
         <ion-button router-link="/profile" fill="clear" size="small"
           ><ion-icon
+            v-if="currentRoute != '/profile'"
             :icon="personOutline"
             size="large"
             class="tab-icon"
+          ></ion-icon
+          ><ion-icon
+            v-if="currentRoute === '/profile'"
+            :icon="person"
+            size="large"
+            class="active-color"
           ></ion-icon
         ></ion-button>
 
@@ -103,6 +131,10 @@ ion-col {
 
 .tab-icon {
   color: #ffffff !important;
+}
+
+.active-color {
+  color: #e85112;
 }
 
 ion-button:active {
