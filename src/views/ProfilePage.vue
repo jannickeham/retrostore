@@ -17,6 +17,8 @@ import TabBar from "@/components/TabBar.vue";
 import { authService } from "@/services/directus.service";
 import { useRouter } from "vue-router";
 
+const userAccessToken = localStorage.getItem("auth_token");
+
 const router = useRouter();
 
 let isLoggedIn = true;
@@ -70,7 +72,7 @@ const logout = async () => {
       ></ion-button>
     </ion-content>
     <ion-footer>
-      <TabBar></TabBar>
+      <TabBar userAccessToken></TabBar>
     </ion-footer>
   </ion-page>
 </template>

@@ -78,7 +78,9 @@ const register = async () => {
         <ion-buttons slot="start">
           <ion-back-button default-href="/"></ion-back-button>
         </ion-buttons>
-        <ion-title class="retro-text">Retro<span>Store</span></ion-title>
+        <ion-title router-link="/welcome" class="retro-text"
+          >Retro<span>Store</span></ion-title
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -168,7 +170,7 @@ const register = async () => {
       >
     </ion-content>
     <ion-footer>
-      <TabBar isLoggedIn></TabBar>
+      <TabBar :is-logged-in="isLoggedIn"></TabBar>
     </ion-footer>
   </ion-page>
 </template>

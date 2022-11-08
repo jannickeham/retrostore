@@ -24,7 +24,8 @@ import TabBar from "@/components/TabBar.vue";
 
 const productCardInfo = ref([]);
 const userAccessToken = localStorage.getItem("auth_token");
-//let isLoggedIn = false;
+
+console.log("token " + userAccessToken);
 
 onIonViewDidEnter(async () => {
   const response = await directus.graphql.items(`
@@ -56,7 +57,9 @@ onIonViewDidEnter(async () => {
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar class="toolbar">
-        <ion-title class="retro-text">Retro<span>Store</span></ion-title>
+        <ion-title router-link="/welcome" class="retro-text"
+          >Retro<span>Store</span></ion-title
+        >
       </ion-toolbar>
     </ion-header>
 
@@ -95,7 +98,7 @@ onIonViewDidEnter(async () => {
       </ion-card>
     </ion-content>
     <ion-footer>
-      <TabBar isLoggedIn></TabBar>
+      <TabBar userAccessToken></TabBar>
     </ion-footer>
   </ion-page>
 </template>

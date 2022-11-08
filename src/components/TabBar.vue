@@ -15,22 +15,23 @@ import {
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 import { ref } from "vue";
-import { defineProps } from "vue";
+//import { defineProps } from "vue";
 
-interface Props {
-  isLoggedIn: boolean;
-}
+/*interface Props {
+  userAccessToken: boolean;
+}*/
 
 // How to get current routing
 //https://stackoverflow.com/questions/65989489/best-way-to-get-current-route-in-vue3-and-vue-router
 
 const route = useRoute();
+//const userAccessToken = localStorage.getItem("auth_token");
 
 const path = computed(() => route.path);
 const currentRoute = path.value;
 console.log(currentRoute);
 
-defineProps<Props>();
+//defineProps<Props>();
 </script>
 
 <template>
@@ -57,22 +58,8 @@ defineProps<Props>();
         ></ion-button>
         Marked
       </ion-col>
+
       <ion-col>
-        <ion-button
-          class="column-item-pos"
-          router-link="/search"
-          fill="clear"
-          size="small"
-          ><ion-icon
-            v-if="currentRoute != '/search'"
-            :icon="searchOutline"
-            size="large"
-            class="tab-icon"
-          ></ion-icon
-        ></ion-button>
-        Søk
-      </ion-col>
-      <ion-col v-if="isLoggedIn">
         <ion-button
           class="column-item-pos"
           router-link="/new-product"
@@ -92,22 +79,8 @@ defineProps<Props>();
           ></ion-icon
         ></ion-button>
       </ion-col>
-      <ion-col v-if="isLoggedIn">
-        <ion-button
-          class="column-item-pos"
-          router-link="/chat"
-          fill="clear"
-          size="small"
-          ><ion-icon
-            v-if="currentRoute != '/chat'"
-            :icon="chatboxEllipsesOutline"
-            size="large"
-            class="tab-icon"
-          ></ion-icon
-        ></ion-button>
-        Chat
-      </ion-col>
-      <ion-col v-if="isLoggedIn">
+
+      <ion-col>
         <ion-button
           router-link="/profile"
           class="column-item-pos"
@@ -128,28 +101,6 @@ defineProps<Props>();
         ></ion-button>
 
         Profil
-      </ion-col>
-      <ion-col v-if="!isLoggedIn">
-        <ion-button
-          class="column-item-pos"
-          router-link="/login"
-          fill="clear"
-          size="small"
-          ><ion-icon
-            v-if="currentRoute != '/login'"
-            :icon="personOutline"
-            size="large"
-            class="tab-icon"
-          ></ion-icon
-          ><ion-icon
-            v-if="currentRoute === '/login'"
-            :icon="person"
-            size="large"
-            class="active-color"
-          ></ion-icon
-        ></ion-button>
-
-        Logg inn
       </ion-col>
     </ion-row>
   </ion-grid>
