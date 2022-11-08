@@ -21,31 +21,14 @@ import { directus } from "@/services/directus.service";
 import { ref } from "vue";
 import { stringLiteral } from "@babel/types";
 
-//const userAccessToken = localStorage.getItem("auth_token");
+const userAccessToken = localStorage.getItem("auth_token");
 
 const router = useRouter();
 
 let userInfo = ref([]);
 
-//let isLoggedIn = true;
-
-/*onIonViewDidEnter(async () => {
-  const response = await directus.graphql.items(`
-  query {
-	  users_me {
-		  email,
-      first_name
-	  }
-  }
-   `);
-  if (response.status === 200 && response.data) {
-    userInfo.value = [...response.data.users_me];
-    console.log("HER ER JEG" + userInfo.value);
-  }
-});*/
-
 onIonViewDidEnter(async () => {
-  currentUser();
+  await currentUser();
 });
 
 const currentUser = async () => {
@@ -53,6 +36,7 @@ const currentUser = async () => {
     const response = await authService.currentUser();
     userInfo.value = response;
     console.log("200 ok");
+    console.log(userInfo.value);
   } catch (error) {
     console.log(error);
   }
@@ -86,7 +70,7 @@ const logout = async () => {
         <ion-avatar class="profile-avatar">
           <img
             alt="Profil bilde"
-            src="https://ionicframework.com/docs/img/demos/avatar.svg"
+            :src="`https://v6a8qmt5.directus.app/assets/${userInfo.avatar}?access_token=${userAccessToken}`"
           />
         </ion-avatar>
         <h1 class="profile-name retro-text">{{ userInfo.first_name }}</h1>

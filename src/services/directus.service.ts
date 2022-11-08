@@ -21,7 +21,7 @@ export const authService = {
   //Read returns everything about user, but we specify here what information we want
   async currentUser() {
     return await directus.users.me.read({
-      fields: ["email", "first_name"],
+      fields: ["email", "first_name", "avatar"],
     });
   },
 
