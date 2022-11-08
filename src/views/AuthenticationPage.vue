@@ -22,6 +22,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+let isLoggedIn = false;
 
 //retro mario image https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png
 
@@ -48,6 +49,7 @@ const login = async () => {
     );
     //Go to home and don't save router history for login
     router.replace("/profile");
+    isLoggedIn = true;
     console.log("200 ok");
   } catch (error) {
     console.log(error);
@@ -166,7 +168,7 @@ const register = async () => {
       >
     </ion-content>
     <ion-footer>
-      <TabBar></TabBar>
+      <TabBar isLoggedIn></TabBar>
     </ion-footer>
   </ion-page>
 </template>

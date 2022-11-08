@@ -13,8 +13,25 @@ import {
   IonFooter,
 } from "@ionic/vue";
 import { logOutOutline } from "ionicons/icons";
-
 import TabBar from "@/components/TabBar.vue";
+import { authService } from "@/services/directus.service";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+let isLoggedIn = true;
+
+const logout = async () => {
+  try {
+    await authService.logout();
+    //Go to home and don't save router history for login
+    router.replace("/home");
+    isLoggedIn = false;
+    console.log("200 ok");
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 <template>
   <ion-page>
@@ -42,7 +59,7 @@ import TabBar from "@/components/TabBar.vue";
         <div>Mine annonser</div>
         <div>Mine favoritter</div>
       </div>
-      <ion-button expand="block"
+      <ion-button @click="logout" expand="block"
         >Logg ut
         <ion-icon
           class="icon-white"

@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import {
-  IonIcon,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonButton,
-} from "@ionic/vue";
+import { IonIcon, IonGrid, IonRow, IonCol, IonButton } from "@ionic/vue";
 import {
   addCircleOutline,
   searchOutline,
@@ -24,16 +15,22 @@ import {
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 import { ref } from "vue";
+import { defineProps } from "vue";
+
+interface Props {
+  isLoggedIn: boolean;
+}
 
 // How to get current routing
 //https://stackoverflow.com/questions/65989489/best-way-to-get-current-route-in-vue3-and-vue-router
 
 const route = useRoute();
-let userLoggedIn = ref(true);
 
 const path = computed(() => route.path);
 const currentRoute = path.value;
 console.log(currentRoute);
+
+defineProps<Props>();
 </script>
 
 <template>
@@ -75,7 +72,7 @@ console.log(currentRoute);
         ></ion-button>
         Søk
       </ion-col>
-      <ion-col v-if="userLoggedIn">
+      <ion-col v-if="isLoggedIn">
         <ion-button
           class="column-item-pos"
           router-link="/new-product"
@@ -95,7 +92,7 @@ console.log(currentRoute);
           ></ion-icon
         ></ion-button>
       </ion-col>
-      <ion-col v-if="userLoggedIn">
+      <ion-col v-if="isLoggedIn">
         <ion-button
           class="column-item-pos"
           router-link="/chat"
@@ -110,7 +107,7 @@ console.log(currentRoute);
         ></ion-button>
         Chat
       </ion-col>
-      <ion-col v-if="userLoggedIn">
+      <ion-col v-if="isLoggedIn">
         <ion-button
           router-link="/profile"
           class="column-item-pos"
@@ -132,7 +129,7 @@ console.log(currentRoute);
 
         Profil
       </ion-col>
-      <ion-col v-if="!userLoggedIn">
+      <ion-col v-if="!isLoggedIn">
         <ion-button
           class="column-item-pos"
           router-link="/login"
