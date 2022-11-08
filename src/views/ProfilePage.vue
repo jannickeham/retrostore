@@ -11,24 +11,59 @@ import {
   IonButton,
   IonIcon,
   IonFooter,
+  onIonViewDidEnter,
 } from "@ionic/vue";
 import { logOutOutline } from "ionicons/icons";
 import TabBar from "@/components/TabBar.vue";
 import { authService } from "@/services/directus.service";
 import { useRouter } from "vue-router";
+import { directus } from "@/services/directus.service";
+import { ref } from "vue";
+import { stringLiteral } from "@babel/types";
 
-const userAccessToken = localStorage.getItem("auth_token");
+//const userAccessToken = localStorage.getItem("auth_token");
 
 const router = useRouter();
 
-let isLoggedIn = true;
+let userInfo = ref([]);
+
+//let isLoggedIn = true;
+
+/*onIonViewDidEnter(async () => {
+  const response = await directus.graphql.items(`
+  query {
+	  users_me {
+		  email,
+      first_name
+	  }
+  }
+   `);
+  if (response.status === 200 && response.data) {
+    userInfo.value = [...response.data.users_me];
+    console.log("HER ER JEG" + userInfo.value);
+  }
+});*/
+
+onIonViewDidEnter(async () => {
+  currentUser();
+});
+
+const currentUser = async () => {
+  try {
+    const response = await authService.currentUser();
+    userInfo.value = response;
+    console.log("200 ok");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const logout = async () => {
   try {
     await authService.logout();
     //Go to home and don't save router history for login
     router.replace("/home");
-    isLoggedIn = false;
+    //isLoggedIn = false;
     console.log("200 ok");
   } catch (error) {
     console.log(error);
@@ -50,18 +85,15 @@ const logout = async () => {
       <div class="container">
         <ion-avatar class="profile-avatar">
           <img
-            alt="Profil picture"
+            alt="Profil bilde"
             src="https://ionicframework.com/docs/img/demos/avatar.svg"
           />
         </ion-avatar>
-        <h1 class="profile-name retro-text">Navn Navnesen</h1>
-        <p>navn.navnesen@gmail.com</p>
+        <h1 class="profile-name retro-text">{{ userInfo.first_name }}</h1>
+        <p>{{ userInfo.email }}</p>
       </div>
-      <div class="container">
-        <div>Mine annonser</div>
-        <div>Mine favoritter</div>
-      </div>
-      <ion-button @click="logout" expand="block"
+
+      <ion-button class="logout-btn" @click="logout" expand="block"
         >Logg ut
         <ion-icon
           class="icon-white"
@@ -94,5 +126,9 @@ const logout = async () => {
 
 .icon-white {
   color: #ffffff !important;
+}
+
+.logout-btn {
+  margin-top: 2rem !important;
 }
 </style>

@@ -15,12 +15,12 @@ const authenticationRequiredRouteGuard = async () => {
 
   if (!userAccessToken) {
     const errorToast = await toastController.create({
-      message: "Du må logge inn for å gjøre dette",
+      message: "Obs! Du må logge inn først.",
       duration: 3000,
       color: "primary",
     });
     await errorToast.present();
-    return { name: "Home" };
+    return { name: "Login" };
   }
 
   const userAccessTokenExpiresAt = localStorage.getItem(
@@ -37,7 +37,7 @@ const authenticationRequiredRouteGuard = async () => {
     await errorToast.present();
 
     authService.logout();
-    return { name: "Welcome" };
+    return { name: "Login" };
   }
 };
 

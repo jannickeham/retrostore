@@ -34,7 +34,7 @@ import { directus } from "@/services/directus.service";
 const route = useRoute();
 const { id } = route.params;
 const product = ref(null);
-const user = ref(null);
+//const user = ref(null);
 //const isLoadingCampSpot = ref(true);
 const userAccessToken = localStorage.getItem("auth_token");
 

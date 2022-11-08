@@ -23,9 +23,9 @@ import { locationOutline, arrowForwardCircleOutline } from "ionicons/icons";
 import TabBar from "@/components/TabBar.vue";
 
 const productCardInfo = ref([]);
-const userAccessToken = localStorage.getItem("auth_token");
+//const userAccessToken = localStorage.getItem("auth_token");
 
-console.log("token " + userAccessToken);
+//console.log("token " + userAccessToken);
 
 onIonViewDidEnter(async () => {
   const response = await directus.graphql.items(`
@@ -98,7 +98,7 @@ onIonViewDidEnter(async () => {
       </ion-card>
     </ion-content>
     <ion-footer>
-      <TabBar userAccessToken></TabBar>
+      <TabBar></TabBar>
     </ion-footer>
   </ion-page>
 </template>

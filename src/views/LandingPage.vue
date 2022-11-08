@@ -40,9 +40,6 @@ const landingPageImg =
               slot="end"
             ></ion-icon
           ></ion-button>
-          <ion-button router-link="/login" class="login-btn" fill="clear"
-            >Logg inn</ion-button
-          >
         </div>
       </div>
     </ion-content>
