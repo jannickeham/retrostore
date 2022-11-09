@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
   IonCard,
   IonCardSubtitle,
   IonCardTitle,
   IonCardHeader,
   IonCardContent,
   IonButton,
-  onIonViewDidEnter,
   IonIcon,
   IonChip,
-  IonFooter,
-  IonImg,
-  RefresherCustomEvent,
-  IonRefresher,
-  IonRefresherContent,
 } from "@ionic/vue";
 import { locationOutline, arrowForwardCircleOutline } from "ionicons/icons";
 import ProductImage from "@/components/ProductImage.vue";
@@ -39,6 +28,7 @@ interface Props {
 
 defineProps<Props>();
 </script>
+
 <template>
   <ion-card>
     <product-image :image-id="product.image.id" />

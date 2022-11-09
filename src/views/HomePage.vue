@@ -5,63 +5,47 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonCard,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCardHeader,
-  IonCardContent,
-  IonButton,
   onIonViewDidEnter,
-  IonIcon,
-  IonChip,
   IonFooter,
-  IonImg,
   RefresherCustomEvent,
   IonRefresher,
   IonRefresherContent,
 } from "@ionic/vue";
 import { directus } from "@/services/directus.service";
-import { useRouter } from "vue-router";
 import { ref } from "vue";
-import { locationOutline, arrowForwardCircleOutline } from "ionicons/icons";
 import ProductCard from "@/components/ProductCard.vue";
 import TabBar from "@/components/TabBar.vue";
+import { IProduct, IProductsResponse } from "@/models/ProductModels";
 
-const productCardInfo = ref([]);
-const userAccessToken = localStorage.getItem("auth_token");
-
-console.log("token " + userAccessToken);
+const productCardInfo = ref<IProduct[]>([]);
 
 onIonViewDidEnter(() => {
   fetchProducts();
 });
 
+//fetch products from db when scroll down on window
 const refreshProductView = async (event: RefresherCustomEvent) => {
   await fetchProducts();
   event.target.complete();
 };
 
+//fetch products from directus
 const fetchProducts = async () => {
-  const response = await directus.graphql.items(`
-    query {
-      product {
-        id,
-        title,
-        description,
-        category,
-        price,
-        location,
-        image {
-          id
-        },
-        user_created {
-          first_name
-        }
-      }
+  const response = await directus.graphql.items<IProductsResponse>(`
+  query {
+    product {
+    id,
+    title,
+    description,
+    category,
+    price,
+    location,
+    image {
+      id
     }
-   `);
-
-  console.log("her da?");
+    }
+  }
+`);
 
   if (response.status === 200 && response.data) {
     productCardInfo.value = [...response.data.product];
@@ -84,6 +68,7 @@ const fetchProducts = async () => {
       <ion-refresher slot="fixed" @ionRefresh="refreshProductView($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
+
       <product-card
         v-for="product in productCardInfo"
         :key="product.id"
