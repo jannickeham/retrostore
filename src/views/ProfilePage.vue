@@ -19,7 +19,6 @@ import { authService } from "@/services/directus.service";
 import { useRouter } from "vue-router";
 import { directus } from "@/services/directus.service";
 import { ref } from "vue";
-import { stringLiteral } from "@babel/types";
 
 const userAccessToken = localStorage.getItem("auth_token");
 
@@ -88,7 +87,7 @@ const logout = async () => {
       ></ion-button>
     </ion-content>
     <ion-footer>
-      <TabBar userAccessToken></TabBar>
+      <TabBar></TabBar>
     </ion-footer>
   </ion-page>
 </template>
