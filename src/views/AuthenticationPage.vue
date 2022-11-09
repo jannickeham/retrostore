@@ -15,11 +15,22 @@ import {
   IonIcon,
   IonFooter,
 } from "@ionic/vue";
+import { authService } from "@/services/directus.service";
 import TabBar from "@/components/TabBar.vue";
 import { logInOutline, enterOutline } from "ionicons/icons";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+let isLoggedIn = false;
 
 //retro mario image https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png
+
+const userDetails = ref({
+  firstName: "",
+  email: "",
+  password: "",
+});
 
 let registerUser = ref(false);
 const isNewUser = () => {
@@ -27,6 +38,35 @@ const isNewUser = () => {
     registerUser.value = true;
   } else {
     registerUser.value = false;
+  }
+};
+
+const login = async () => {
+  try {
+    await authService.login(
+      userDetails.value.email,
+      userDetails.value.password
+    );
+    //Go to home and don't save router history for login
+    router.replace("/profile");
+    isLoggedIn = true;
+    console.log("200 ok");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const register = async () => {
+  try {
+    console.log("registration 200 ok");
+    const wasRegistered = await authService.register(
+      userDetails.value.firstName,
+      userDetails.value.email,
+      userDetails.value.password
+    );
+    await login();
+  } catch (error) {
+    console.log(error);
   }
 };
 </script>
@@ -38,7 +78,9 @@ const isNewUser = () => {
         <ion-buttons slot="start">
           <ion-back-button default-href="/"></ion-back-button>
         </ion-buttons>
-        <ion-title class="retro-text">Retro<span>Store</span></ion-title>
+        <ion-title router-link="/welcome" class="retro-text"
+          >Retro<span>Store</span></ion-title
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -55,26 +97,39 @@ const isNewUser = () => {
           <ion-label color="light" position="stacked" placeholder="Navn"
             >Navn</ion-label
           >
-          <ion-input placeholder="Navn" color="light"></ion-input>
+          <ion-input
+            v-model="userDetails.firstName"
+            placeholder="Navn"
+            color="light"
+          ></ion-input>
         </ion-item>
         <ion-item>
           <ion-label color="light" position="stacked" placeholder="Epost"
             >Epost</ion-label
           >
-          <ion-input placeholder="Epost" color="light"></ion-input>
+          <ion-input
+            v-model="userDetails.email"
+            placeholder="Epost"
+            color="light"
+          ></ion-input>
         </ion-item>
         <ion-item>
           <ion-label color="light" position="stacked" placeholder="Passord"
             >Passord</ion-label
           >
           <ion-input
+            v-model="userDetails.password"
             placeholder="Passord"
             type="password"
             color="light"
           ></ion-input>
         </ion-item>
       </div>
-      <ion-button v-if="!registerUser" class="login-btn" expand="block"
+      <ion-button
+        @click="login"
+        v-if="!registerUser"
+        class="login-btn"
+        expand="block"
         >Logg inn<ion-icon
           class="icon-white"
           :icon="logInOutline"
@@ -91,8 +146,8 @@ const isNewUser = () => {
         >Registrer ny bruker</ion-button
       >
       <ion-button
+        @click="register"
         class="margin-2"
-        @click="isNewUser"
         v-if="registerUser"
         expand="block"
       >
@@ -115,7 +170,7 @@ const isNewUser = () => {
       >
     </ion-content>
     <ion-footer>
-      <TabBar></TabBar>
+      <TabBar :is-logged-in="isLoggedIn"></TabBar>
     </ion-footer>
   </ion-page>
 </template>

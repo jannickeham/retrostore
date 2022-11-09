@@ -21,30 +21,37 @@ import {
   IonIcon,
   IonAvatar,
   IonLabel,
+  IonFooter,
 } from "@ionic/vue";
 import { chatboxEllipsesOutline } from "ionicons/icons";
+
+import TabBar from "@/components/TabBar.vue";
+
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-//import { directus } from "@/services/directus.service";
+import { directus } from "@/services/directus.service";
 
 const route = useRoute();
-//const { id } = route.params;
-//const spotData = ref(null);
+const { id } = route.params;
+const product = ref(null);
+//const user = ref(null);
 //const isLoadingCampSpot = ref(true);
-//const userAccessToken = localStorage.getItem("auth_token");
+const userAccessToken = localStorage.getItem("auth_token");
 
-/*onIonViewDidEnter(() => {
-  fetchCampingSpot();
-});*/
+onIonViewDidEnter(() => {
+  fetchProduct();
+});
 
-/*const fetchCampingSpot = async () => {
+const fetchProduct = async () => {
   const response = await directus.graphql.items(`
     query {
-      camp_spots_by_id(id: ${id}){
+      product_by_id(id: ${id}){
         id,
         title,
         description,
-        hashtags,
+        location,
+        price,
+        category,
         image {
           id
         },
@@ -55,24 +62,16 @@ const route = useRoute();
     }
    `);
   if (response.status === 200 && response.data) {
-    spotData.value = response.data.camp_spots_by_id;
-    isLoadingCampSpot.value = false;
-  }
-};*/
+    product.value = response.data.product_by_id;
 
-const product = {
-  id: 1,
-  title: "N64 til salgs",
-  description: "N64 selges billig",
-  location: "Oslo",
-  price: "1000",
-  category: ["nintendo", "n64", "mario"],
-  imageURL:
-    "https://www.looper.com/img/gallery/this-is-the-best-selling-n64-game-of-all-time/l-intro-1649090213.jpg",
+    //isLoadingCampSpot.value = false;
+  }
 };
 
 const map =
   "https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/pass/GoogleMapTA.jpg";
+
+const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
 </script>
 
 <template>
@@ -82,22 +81,27 @@ const map =
         <ion-buttons slot="start">
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="retro-text">Retro<span>Store</span></ion-title>
+        <ion-title router-link="/welcome" class="retro-text"
+          >Retro<span>Store</span></ion-title
+        >
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true">
-      <ion-img :src="product.imageURL" class="ion-margin" />
+    <ion-content v-if="product" :fullscreen="true">
+      <ion-img
+        :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}?access_token=${userAccessToken}`"
+        class="ion-margin"
+      />
       <ion-text>
         <h1 class="ion-margin-start">{{ product.title }}</h1>
       </ion-text>
       <ion-chip class="ion-margin-start">
         <ion-avatar>
-          <img
-            src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
-          />
+          <img :src="avatarImg" />
         </ion-avatar>
-        <ion-label class="white-txt">Kris Adamsen</ion-label>
+        <ion-label class="white-txt">{{
+          product.user_created.first_name
+        }}</ion-label>
       </ion-chip>
 
       <ion-text>
@@ -137,6 +141,7 @@ const map =
         ></ion-icon
       ></ion-button>
     </ion-content>
+    <ion-footer><TabBar></TabBar></ion-footer>
   </ion-page>
 </template>
 

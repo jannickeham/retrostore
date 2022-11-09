@@ -11,6 +11,8 @@ import {
 import TabBar from "@/components/TabBar.vue";
 import { gameControllerOutline } from "ionicons/icons";
 
+const userAccessToken = localStorage.getItem("auth_token");
+
 const landingPageImg =
   "https://sites.google.com/site/pacmangamearcade/_/rsrc/1472842306797/gameplay/overview/Pac-man.png?height=400&width=311";
 </script>
@@ -38,7 +40,6 @@ const landingPageImg =
               slot="end"
             ></ion-icon
           ></ion-button>
-          <ion-button class="login-btn" fill="clear">Logg inn</ion-button>
         </div>
       </div>
     </ion-content>
