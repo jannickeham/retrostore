@@ -21,19 +21,22 @@ export const authService = {
   //Read returns everything about user, but we specify here what information we want
   async currentUser() {
     return await directus.users.me.read({
-      fields: ["email", "first_name", "avatar"],
+      fields: ["email", "first_name", "avatar", "last_name"],
     });
   },
 
   async register(
     firstName: string,
+    lastName: string,
     email: string,
     password: string
   ): Promise<boolean> {
     const createUserResult = await directus.users.createOne({
       first_name: firstName,
+      last_name: lastName,
       email,
       password,
+
       role: "b4a6a771-01e8-4c85-9378-f0e99f458281", //Get this from directus, roles and permissions, users url
     });
 

@@ -68,11 +68,23 @@ const logout = async () => {
       <div class="container">
         <ion-avatar class="profile-avatar">
           <img
+            v-if="!userInfo.avatar"
+            alt="Profil bilde"
+            src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+          />
+          <img
+            v-if="userInfo.avatar"
             alt="Profil bilde"
             :src="`https://v6a8qmt5.directus.app/assets/${userInfo.avatar}?access_token=${userAccessToken}`"
           />
         </ion-avatar>
-        <h1 class="profile-name retro-text">{{ userInfo.first_name }}</h1>
+        <h2 class="profile-name retro-text">
+          {{ userInfo.first_name }}
+        </h2>
+        <h2 class="profile-name retro-text">
+          {{ userInfo.last_name }}
+        </h2>
+
         <p>{{ userInfo.email }}</p>
       </div>
 
@@ -95,7 +107,13 @@ const logout = async () => {
 <style>
 .profile-avatar {
   width: 10rem !important;
-  height: auto !important;
+  height: 10rem !important;
+  margin-bottom: 2rem;
+}
+
+.profile-name {
+  color: #e85112 !important;
+  margin: 0 !important;
 }
 
 .container {
@@ -112,6 +130,6 @@ const logout = async () => {
 }
 
 .logout-btn {
-  margin-top: 2rem !important;
+  margin-top: 5rem;
 }
 </style>

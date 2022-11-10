@@ -20,7 +20,7 @@ import TabBar from "@/components/TabBar.vue";
 import { logInOutline, enterOutline } from "ionicons/icons";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
+import { directus } from "@/services/directus.service";
 const router = useRouter();
 let isLoggedIn = false;
 
@@ -28,6 +28,7 @@ let isLoggedIn = false;
 
 const userDetails = ref({
   firstName: "",
+  lastName: "",
   email: "",
   password: "",
 });
@@ -61,6 +62,7 @@ const register = async () => {
     console.log("registration 200 ok");
     const wasRegistered = await authService.register(
       userDetails.value.firstName,
+      userDetails.value.lastName,
       userDetails.value.email,
       userDetails.value.password
     );
@@ -92,13 +94,29 @@ const register = async () => {
         />
       </div>
 
+      <div class="title-container retro-text" v-if="!registerUser">
+        <h1>Logg inn</h1>
+      </div>
+      <div class="title-container retro-text" v-if="registerUser">
+        <h1>Registrer deg</h1>
+      </div>
       <div class="login-container">
         <ion-item v-if="registerUser">
           <ion-label color="light" position="stacked" placeholder="Navn"
-            >Navn</ion-label
+            >Fornavn</ion-label
           >
           <ion-input
             v-model="userDetails.firstName"
+            placeholder="Navn"
+            color="light"
+          ></ion-input>
+        </ion-item>
+        <ion-item v-if="registerUser">
+          <ion-label color="light" position="stacked" placeholder="Etternavn"
+            >Etternavn</ion-label
+          >
+          <ion-input
+            v-model="userDetails.lastName"
             placeholder="Navn"
             color="light"
           ></ion-input>
@@ -170,12 +188,19 @@ const register = async () => {
       >
     </ion-content>
     <ion-footer>
-      <TabBar :is-logged-in="isLoggedIn"></TabBar>
+      <TabBar></TabBar>
     </ion-footer>
   </ion-page>
 </template>
 
 <style>
+.title-container {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .margin-2 {
   margin-top: 1rem;
 }
@@ -185,11 +210,12 @@ const register = async () => {
 }
 
 .login-btn {
-  margin-top: 1.5rem;
+  margin-top: 5rem;
+  text-decoration: none !important;
 }
 
 .mario-img {
-  width: 9rem;
+  width: 7rem;
   height: auto;
 }
 
@@ -197,6 +223,7 @@ const register = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 0 !important;
 }
 
 .login-container {
