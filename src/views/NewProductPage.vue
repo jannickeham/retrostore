@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  IonChip,
   IonContent,
   IonHeader,
   IonPage,
@@ -19,55 +20,67 @@ import {
   IonIcon,
   IonFooter,
 } from "@ionic/vue";
-import { saveOutline, addCircleOutline } from "ionicons/icons";
+import { saveOutline, addCircleOutline, imageOutline } from "ionicons/icons";
 import { ref } from "vue";
-
-//import { Camera, CameraResultType } from "@capacitor/camera";
-//import { directus } from "@/services/directus.service";
+import { Camera, CameraResultType } from "@capacitor/camera";
+import { directus } from "@/services/directus.service";
 import { useRouter } from "vue-router";
 import { setErrorHandler } from "ionicons/dist/types/stencil-public-runtime";
-
 import TabBar from "@/components/TabBar.vue";
+import { INewProduct } from "@/models/ProductModels";
+import { numberLiteralTypeAnnotation } from "@babel/types";
 
 const router = useRouter();
+const isUploadingProduct = ref(false);
 
-//Keeps track of the input field for new hashtags
-const newCategoryText = ref([]);
-
-//Handles state of toast
-//let setOpen = ref(false);
-//let setError = ref(false);
+//Keeps track of the input field for new categories
+const newCategoryText = ref("");
 
 //Handles state of loader
 //let loader = ref(false);
 
 //Keeps track of all data input from user when adding new product
-const newProduct = ref({
+const newProduct = ref<INewProduct>({
   title: "",
   description: "",
   category: [],
   image: "",
+  location: "",
+  price: "",
 });
 
-//Add new hashtags to newcampspot
-/*const addNewCategory = () => {
-  //Avoid adding empty hashtags
-  if (newCategoryText.value) {
-    newProduct.value.category.push(newCategoryText.value);
-    newCategoryText.value = "";
+//Add new category to newProduct
+const addNewCategory = () => {
+  console.log(newProduct.value.category);
+
+  if (newProduct.value.category.length <= 3) {
+    //checks if no categories where added
+    if (newCategoryText.value) {
+      newProduct.value.category.push(newCategoryText.value);
+      newCategoryText.value = "";
+    }
+  } else {
+    alert("du kan ikke legge til flere kategorier");
   }
-};*/
+};
 
 //Handle POST
-//const postNewCampSpot = async () => {
-//If image is not chosen, show alert
-//if (!newCampSpot.value.image) {
-//setError.value = true;
-//}
+const postNewProduct = async () => {
+  //If image is not chosen, show alert
+  if (!newProduct.value.image) {
+    const errorToast = await toastController.create({
+      message: "Du må laste opp et bilde!",
+      duration: 2500,
+      position: "bottom",
+      color: "danger",
+    });
+    await errorToast.present();
+  }
 
-//Fetch the image, make it a blob, and
-/*try {
-    const response = await fetch(newCampSpot.value.image);
+  //Fetch the image, make it a blob, and
+  try {
+    isUploadingProduct.value = true;
+    const response = await fetch(newProduct.value.image);
     const imageBlob = await response.blob();
 
     const formData = new FormData();
@@ -75,38 +88,57 @@ const newProduct = ref({
 
     const fileUpload = await directus.files.createOne(formData);
     if (fileUpload) {
-      //If uploaded image, then make new row in camp_spots
-      await directus.items("camp_spots").createOne({
-        title: newCampSpot.value.title,
-        description: newCampSpot.value.description,
-        hasgtags: newCampSpot.value.hashtags,
-        comments: [],
+      //If uploaded image, then make new row in product
+      await directus.items("product").createOne({
+        title: newProduct.value.title,
+        description: newProduct.value.description,
+        category: newProduct.value.category,
+        price: newProduct.value.price,
+        location: newProduct.value.location,
         image: fileUpload.id,
       });
 
-      setOpen.value = true;
-      newCampSpot.value.title = "";
-      newCampSpot.value.description = "";
-      newCampSpot.value.hashtags = [];
-      newCampSpot.value.image = "";
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};*/
+      const successToast = await toastController.create({
+        message: "Teltplassen ble lastet opp!",
+        duration: 1500,
+        position: "bottom",
+        color: "success",
+      });
 
-/*const triggerCamera = async () => {
+      await successToast.present();
+    }
+    isUploadingProduct.value = false;
+  } catch (error) {
+    const errorToast = await toastController.create({
+      message: "Noe gikk galt ved opplasting av teltplass!",
+      duration: 2500,
+      position: "bottom",
+      color: "danger",
+    });
+    await errorToast.present();
+    console.error(error);
+    isUploadingProduct.value = false;
+  }
+};
+
+const triggerCamera = async () => {
+  //Open camera in app, best quality, no editing, and get uri
   const photo = await Camera.getPhoto({
     quality: 100,
     allowEditing: false,
     resultType: CameraResultType.Uri,
-  }); //Open camera in app, best quality, no editing, and get uri
+  });
 
   if (photo.webPath) {
-    newCampSpot.value.image = photo.webPath; //Save URI to array
+    newProduct.value.image = photo.webPath; //Save URI to array
     //loading();
   }
-};*/
+};
+
+// Handle (preview) image removal
+const removeImagePreview = () => {
+  newProduct.value.image = "";
+};
 
 /*const loading = () => {
   if (loader.value == false) {
@@ -139,30 +171,17 @@ const newProduct = ref({
           color="light"
         ></ion-input>
       </ion-item>
+
       <ion-item>
         <ion-label color="light" position="stacked" placeholder="Pris"
           >Pris</ion-label
         >
         <ion-input
+          type="number"
           placeholder="Pris"
-          v-model="newProduct.title"
+          v-model="newProduct.price"
           color="light"
         ></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked" placeholder="Kategori" color="light"
-          >Ny kategori</ion-label
-        >
-        <ion-input placeholder="Gi varen kategorier" color="light"> </ion-input>
-        <ion-button slot="end" size="default"
-          >Legg til<ion-icon
-            :icon="addCircleOutline"
-            size="large"
-            slot="end"
-            color="light"
-          ></ion-icon
-        ></ion-button>
       </ion-item>
 
       <ion-item>
@@ -171,7 +190,7 @@ const newProduct = ref({
         >
         <ion-input
           placeholder="Sted"
-          v-model="newProduct.title"
+          v-model="newProduct.location"
           color="light"
         ></ion-input>
       </ion-item>
@@ -185,21 +204,52 @@ const newProduct = ref({
         ></ion-textarea>
       </ion-item>
 
-      <ion-button
-        shape="round"
-        color="primary"
-        fill="outline"
-        v-for="category in newProduct.category"
-        :key="category"
-        >{{ category }}</ion-button
-      >
+      <ion-item lines="none">
+        <ion-label position="stacked" placeholder="Kategori" color="light"
+          >Kategori</ion-label
+        >
+        <ion-input
+          v-model="newCategoryText"
+          placeholder="Maks fire kategorier"
+          color="light"
+        >
+        </ion-input>
+        <ion-button @click="addNewCategory" slot="end" size="default"
+          >Legg til<ion-icon
+            :icon="addCircleOutline"
+            size="large"
+            slot="end"
+            color="light"
+          ></ion-icon
+        ></ion-button>
+      </ion-item>
 
-      <ion-button color="#535569" class="image-picker" expand="block">
+      <ion-item lines="none">
+        <ion-chip
+          color="primary"
+          v-for="category in newProduct.category"
+          :key="category"
+          >{{ category }}</ion-chip
+        >
+      </ion-item>
+
+      <ion-button
+        @click="triggerCamera"
+        color="#535569"
+        class="image-picker"
+        expand="block"
+      >
         Velg fil eller ta bilde
+        <ion-icon
+          :icon="imageOutline"
+          size="large"
+          slot="end"
+          color="white"
+        ></ion-icon>
       </ion-button>
       <img :src="newProduct.image" />
 
-      <ion-button expand="block"
+      <ion-button @click="postNewProduct" expand="block"
         >Lagre
         <ion-icon
           :icon="saveOutline"
@@ -224,5 +274,9 @@ const newProduct = ref({
   font-size: medium;
   color: #ffffff;
   border-radius: 10px;
+}
+
+ion-item {
+  margin-top: 1rem !important;
 }
 </style>

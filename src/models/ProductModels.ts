@@ -3,7 +3,7 @@ export interface IProduct {
   title: string;
   description: string;
   location: string;
-  price: number;
+  price: string;
   category: string[];
   image: {
     id: string;
@@ -21,10 +21,10 @@ export interface IProductsResponse {
   product: IProduct[];
 }
 
-export interface INewPRoduct {
+export interface INewProduct {
   title: string;
   description: string;
-  price: number;
+  price: string;
   location: string;
   category: string[];
   image: string;
