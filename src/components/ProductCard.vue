@@ -17,7 +17,7 @@ interface Props {
     id: number;
     title: string;
     description: string;
-    price: number;
+    price: string;
     location: string;
     category: string[];
     image: {
