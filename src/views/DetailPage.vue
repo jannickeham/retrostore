@@ -10,10 +10,7 @@ import {
   IonImg,
   IonText,
   IonGrid,
-  IonCol,
   IonRow,
-  IonCard,
-  IonCardContent,
   IonButton,
   onIonViewDidEnter,
   IonSpinner,
@@ -63,8 +60,6 @@ const fetchProduct = async () => {
    `);
   if (response.status === 200 && response.data) {
     product.value = response.data.product_by_id;
-
-    //isLoadingCampSpot.value = false;
   }
 };
 
@@ -89,7 +84,7 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
 
     <ion-content v-if="product" :fullscreen="true">
       <ion-img
-        :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}?access_token=${userAccessToken}`"
+        :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}`"
         class="ion-margin"
       />
       <ion-text>
