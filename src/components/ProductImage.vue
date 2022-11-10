@@ -3,8 +3,6 @@ interface Props {
   imageId: string;
 }
 
-const userAccessToken = localStorage.getItem("auth_token");
-
 defineProps<Props>();
 </script>
 
