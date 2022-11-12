@@ -28,10 +28,13 @@ import TabBar from "@/components/TabBar.vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { directus } from "@/services/directus.service";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const route = useRoute();
 
 const { id } = route.params;
+
+let isLoading = ref(false);
 
 const product = ref<IProduct | null>(null);
 //const isLoadingCampSpot = ref(true);
@@ -42,6 +45,7 @@ onIonViewDidEnter(() => {
 });
 
 const fetchProduct = async () => {
+  isLoading.value = true;
   const response = await directus.graphql.items<IProductResponse>(`
     query {
       product_by_id(id: ${id}){
@@ -62,6 +66,7 @@ const fetchProduct = async () => {
     }
    `);
   if (response.status === 200 && response.data) {
+    isLoading.value = false;
     product.value = response.data.product_by_id;
   }
 };
@@ -76,9 +81,6 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar class="toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button default-href="/home"></ion-back-button>
-        </ion-buttons>
         <ion-title router-link="/welcome" class="retro-text"
           >Retro<span>Store</span></ion-title
         >
@@ -86,6 +88,8 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
     </ion-header>
 
     <ion-content v-if="product" :fullscreen="true">
+      <loading-spinner v-if="isLoading"></loading-spinner>
+
       <ion-img
         :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}`"
         class="ion-margin"

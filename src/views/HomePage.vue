@@ -17,10 +17,13 @@ import { directus } from "@/services/directus.service";
 import { ref } from "vue";
 import ProductCard from "@/components/ProductCard.vue";
 import TabBar from "@/components/TabBar.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { IProduct, IProductsResponse } from "@/models/ProductModels";
 
 const productCardInfo = ref<IProduct[]>([]);
 let results = ref(productCardInfo);
+
+let isLoading = ref(false);
 
 onIonViewDidEnter(() => {
   fetchProducts();
@@ -34,6 +37,7 @@ const refreshProductView = async (event: RefresherCustomEvent) => {
 
 //fetch products from directus
 const fetchProducts = async () => {
+  isLoading.value = true;
   const response = await directus.graphql.items<IProductsResponse>(`
   query {
     product {
@@ -51,8 +55,8 @@ const fetchProducts = async () => {
 `);
 
   if (response.status === 200 && response.data) {
+    isLoading.value = false;
     productCardInfo.value = [...response.data.product];
-    console.log(productCardInfo.value);
   }
 };
 
@@ -89,22 +93,27 @@ const searchForProducts = (event) => {
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
-      <ion-list v-if="results.length"
-        ><product-card
-          v-for="result in results"
-          :key="result.id"
-          :product="result"
-        ></product-card
-      ></ion-list>
+      <loading-spinner v-if="isLoading"></loading-spinner>
 
-      <ion-list v-if="!results.length"
-        ><product-card
-          v-for="product in productCardInfo"
-          :key="product.id"
-          :product="product"
-        ></product-card
-      ></ion-list>
+      <div v-if="!isLoading">
+        <ion-list v-if="results.length"
+          ><product-card
+            v-for="result in results"
+            :key="result.id"
+            :product="result"
+          ></product-card
+        ></ion-list>
+
+        <ion-list v-if="!results.length"
+          ><product-card
+            v-for="product in productCardInfo"
+            :key="product.id"
+            :product="product"
+          ></product-card
+        ></ion-list>
+      </div>
     </ion-content>
+
     <ion-footer>
       <TabBar></TabBar>
     </ion-footer>
