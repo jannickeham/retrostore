@@ -28,7 +28,8 @@ import { useRouter } from "vue-router";
 import { setErrorHandler } from "ionicons/dist/types/stencil-public-runtime";
 import TabBar from "@/components/TabBar.vue";
 import { INewProduct } from "@/models/ProductModels";
-import { numberLiteralTypeAnnotation } from "@babel/types";
+
+import { IProduct, IProductResponse } from "@/models/ProductModels";
 
 const router = useRouter();
 const isUploadingProduct = ref(false);

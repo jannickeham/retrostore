@@ -21,6 +21,7 @@ import {
   IonFooter,
 } from "@ionic/vue";
 import { chatboxEllipsesOutline } from "ionicons/icons";
+import { IProduct, IProductResponse } from "@/models/ProductModels";
 
 import TabBar from "@/components/TabBar.vue";
 
@@ -29,9 +30,10 @@ import { useRoute } from "vue-router";
 import { directus } from "@/services/directus.service";
 
 const route = useRoute();
+
 const { id } = route.params;
-const product = ref(null);
-//const user = ref(null);
+
+const product = ref<IProduct | null>(null);
 //const isLoadingCampSpot = ref(true);
 const userAccessToken = localStorage.getItem("auth_token");
 
@@ -40,7 +42,7 @@ onIonViewDidEnter(() => {
 });
 
 const fetchProduct = async () => {
-  const response = await directus.graphql.items(`
+  const response = await directus.graphql.items<IProductResponse>(`
     query {
       product_by_id(id: ${id}){
         id,
