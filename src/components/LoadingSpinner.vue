@@ -12,11 +12,11 @@ import { IonSpinner } from "@ionic/vue";
 <template>
   <div>
     <div class="bg-loading"></div>
-    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <ion-spinner class="spinner" name="crescent" color="primary"></ion-spinner>
   </div>
 </template>
 <style>
-ion-spinner {
+.spinner {
   position: absolute;
   top: 50%;
   left: 50%;

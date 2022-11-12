@@ -93,61 +93,59 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
     <ion-content v-if="product" :fullscreen="true">
       <loading-spinner v-if="isLoading"></loading-spinner>
 
-      <div v-if="!isLoading">
-        <ion-img
-          :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}`"
-          class="ion-margin"
-        />
-        <ion-text>
-          <h1 class="ion-margin-start">{{ product.title }}</h1>
-        </ion-text>
-        <ion-chip class="ion-margin-start">
-          <ion-avatar>
-            <img :src="avatarImg" />
-          </ion-avatar>
-          <ion-label class="white-txt">{{
-            product.user_created.first_name
-          }}</ion-label>
-        </ion-chip>
+      <ion-img
+        :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}`"
+        class="ion-margin"
+      />
+      <ion-text>
+        <h1 class="ion-margin-start">{{ product.title }}</h1>
+      </ion-text>
+      <ion-chip class="ion-margin-start">
+        <ion-avatar>
+          <img :src="avatarImg" />
+        </ion-avatar>
+        <ion-label class="white-txt">{{
+          product.user_created.first_name
+        }}</ion-label>
+      </ion-chip>
 
-        <ion-text>
-          <p class="ion-margin-start">{{ product.description }}</p>
-        </ion-text>
-        <ion-text>
-          <h2 class="ion-margin-start retro-text">{{ product.price }},-</h2>
-        </ion-text>
+      <ion-text>
+        <p class="ion-margin-start">{{ product.description }}</p>
+      </ion-text>
+      <ion-text>
+        <h2 class="ion-margin-start retro-text">{{ product.price }},-</h2>
+      </ion-text>
 
-        <ion-grid>
-          <ion-row>
-            <div v-for="category in product.category" :key="category">
-              <ion-chip
-                shape="round"
-                color="primary"
-                size="small"
-                fill="outline"
-                >{{ category }}</ion-chip
-              >
-            </div>
-          </ion-row>
-        </ion-grid>
-
-        <ion-text>
-          <h3 class="ion-margin-start">Lokasjon</h3>
-        </ion-text>
-        <ion-img :src="map" class="ion-margin" />
-
-        <a :href="`mailto:${product.user_created.email}`"
-          ><ion-button expand="block"
-            >Kontakt selger
-            <ion-icon
-              class="icon-arrow ion-float-right"
-              :icon="chatboxEllipsesOutline"
+      <ion-grid>
+        <ion-row>
+          <div v-for="category in product.category" :key="category">
+            <ion-chip
+              shape="round"
+              color="primary"
               size="small"
-              slot="end"
-              color="white"
-            ></ion-icon></ion-button
-        ></a>
-      </div>
+              fill="outline"
+              >{{ category }}</ion-chip
+            >
+          </div>
+        </ion-row>
+      </ion-grid>
+
+      <ion-text>
+        <h3 class="ion-margin-start">Lokasjon</h3>
+      </ion-text>
+      <ion-img :src="map" class="ion-margin" />
+
+      <a :href="`mailto:${product.user_created.email}`"
+        ><ion-button expand="block"
+          >Kontakt selger
+          <ion-icon
+            class="icon-arrow ion-float-right"
+            :icon="chatboxEllipsesOutline"
+            size="small"
+            slot="end"
+            color="white"
+          ></ion-icon></ion-button
+      ></a>
     </ion-content>
     <ion-footer><TabBar></TabBar></ion-footer>
   </ion-page>

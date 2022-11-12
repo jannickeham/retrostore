@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  IonSpinner,
   IonChip,
   IonContent,
   IonHeader,
@@ -13,32 +14,31 @@ import {
   IonInput,
   IonLabel,
   IonTextarea,
-  IonSpinner,
   toastController,
-  IonToast,
-  IonText,
   IonIcon,
   IonFooter,
 } from "@ionic/vue";
-import { saveOutline, addCircleOutline, imageOutline } from "ionicons/icons";
+import {
+  saveOutline,
+  addCircleOutline,
+  imageOutline,
+  trashOutline,
+} from "ionicons/icons";
 import { ref } from "vue";
 import { Camera, CameraResultType } from "@capacitor/camera";
 import { directus } from "@/services/directus.service";
 import { useRouter } from "vue-router";
-import { setErrorHandler } from "ionicons/dist/types/stencil-public-runtime";
+
 import TabBar from "@/components/TabBar.vue";
 import { INewProduct } from "@/models/ProductModels";
 
-import { IProduct, IProductResponse } from "@/models/ProductModels";
-
 const router = useRouter();
+
 const isUploadingProduct = ref(false);
+let isLoading = ref(false);
 
 //Keeps track of the input field for new categories
 const newCategoryText = ref("");
-
-//Handles state of loader
-//let loader = ref(false);
 
 //Keeps track of all data input from user when adding new product
 const newProduct = ref<INewProduct>({
@@ -51,7 +51,7 @@ const newProduct = ref<INewProduct>({
 });
 
 //Add new category to newProduct
-const addNewCategory = () => {
+const addNewCategory = async () => {
   console.log(newProduct.value.category);
 
   if (newProduct.value.category.length <= 3) {
@@ -61,7 +61,13 @@ const addNewCategory = () => {
       newCategoryText.value = "";
     }
   } else {
-    alert("du kan ikke legge til flere kategorier");
+    const errorToast = await toastController.create({
+      message: "Du kan legge til maks fire kategorier!",
+      duration: 2500,
+      position: "middle",
+      color: "primary",
+    });
+    await errorToast.present();
   }
 };
 
@@ -72,14 +78,15 @@ const postNewProduct = async () => {
     const errorToast = await toastController.create({
       message: "Du må laste opp et bilde!",
       duration: 2500,
-      position: "bottom",
-      color: "danger",
+      position: "middle",
+      color: "primary",
     });
     await errorToast.present();
   }
 
   //Fetch the image, make it a blob, and
   try {
+    isLoading.value = true;
     isUploadingProduct.value = true;
     const response = await fetch(newProduct.value.image);
     const imageBlob = await response.blob();
@@ -99,22 +106,24 @@ const postNewProduct = async () => {
         image: fileUpload.id,
       });
 
+      isLoading.value = false;
       const successToast = await toastController.create({
-        message: "Teltplassen ble lastet opp!",
+        message: "Produktet ble lastet opp!",
         duration: 1500,
-        position: "bottom",
-        color: "success",
+        position: "middle",
+        color: "primary",
       });
 
       await successToast.present();
+      router.replace("/home");
     }
     isUploadingProduct.value = false;
   } catch (error) {
     const errorToast = await toastController.create({
-      message: "Noe gikk galt ved opplasting av teltplass!",
+      message: "Noe gikk galt ved opplasting!",
       duration: 2500,
-      position: "bottom",
-      color: "danger",
+      position: "middle",
+      color: "primary",
     });
     await errorToast.present();
     console.error(error);
@@ -132,22 +141,13 @@ const triggerCamera = async () => {
 
   if (photo.webPath) {
     newProduct.value.image = photo.webPath; //Save URI to array
-    //loading();
   }
 };
 
-// Handle (preview) image removal
+// Remove image
 const removeImagePreview = () => {
   newProduct.value.image = "";
 };
-
-/*const loading = () => {
-  if (loader.value == false) {
-    loader.value = true;
-  } else {
-    loader.value = false;
-  }
-};*/
 </script>
 
 <template>
@@ -235,6 +235,7 @@ const removeImagePreview = () => {
       </ion-item>
 
       <ion-button
+        v-if="!newProduct.image"
         @click="triggerCamera"
         color="#535569"
         class="image-picker"
@@ -248,9 +249,19 @@ const removeImagePreview = () => {
           color="white"
         ></ion-icon>
       </ion-button>
-      <img :src="newProduct.image" />
 
-      <ion-button @click="postNewProduct" expand="block"
+      <div class="image-container" v-if="newProduct.image">
+        <img class="image-preview" :src="newProduct.image" />
+        <ion-button
+          @click="removeImagePreview"
+          fill="clear"
+          class="remove-image-preview-btn"
+          >Fjern bilde
+          <ion-icon slot="end" :icon="trashOutline" color="primary"></ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-button v-if="!isLoading" @click="postNewProduct" expand="block"
         >Lagre
         <ion-icon
           :icon="saveOutline"
@@ -259,6 +270,13 @@ const removeImagePreview = () => {
           color="white"
         ></ion-icon
       ></ion-button>
+      <div v-if="isLoading" class="upload-spinner-container">
+        <ion-spinner
+          class="upload-spinner"
+          name="crescent"
+          color="primary"
+        ></ion-spinner>
+      </div>
     </ion-content>
     <ion-footer>
       <TabBar></TabBar>
@@ -267,6 +285,27 @@ const removeImagePreview = () => {
 </template>
 
 <style>
+.remove-image-preview-btn {
+  position: relative;
+  left: 60%;
+}
+
+.image-container {
+  margin-left: 0.7rem;
+  margin-right: 0.7rem;
+  margin-bottom: 2rem;
+}
+
+.image-preview {
+  border-radius: 10px;
+}
+
+.upload-spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .image-picker {
   height: 20vh;
   margin: 10px;
