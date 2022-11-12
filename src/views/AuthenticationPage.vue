@@ -87,7 +87,7 @@ const register = async () => {
     </ion-header>
     <ion-content :fullscreen="true">
       <loading-spinner v-if="isLoading"></loading-spinner>
-      <div v-if="!isLoading">
+      <section v-if="!isLoading">
         <div class="container">
           <img
             class="mario-img"
@@ -102,93 +102,100 @@ const register = async () => {
         <div class="title-container retro-text" v-if="registerUser">
           <h1>Registrer deg</h1>
         </div>
-        <div class="login-container">
-          <ion-item v-if="registerUser">
-            <ion-label color="light" position="stacked" placeholder="Navn"
-              >Fornavn</ion-label
-            >
-            <ion-input
-              v-model="userDetails.firstName"
-              placeholder="Navn"
-              color="light"
-            ></ion-input>
-          </ion-item>
-          <ion-item v-if="registerUser">
-            <ion-label color="light" position="stacked" placeholder="Etternavn"
-              >Etternavn</ion-label
-            >
-            <ion-input
-              v-model="userDetails.lastName"
-              placeholder="Navn"
-              color="light"
-            ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label color="light" position="stacked" placeholder="Epost"
-              >Epost</ion-label
-            >
-            <ion-input
-              v-model="userDetails.email"
-              placeholder="Epost"
-              color="light"
-            ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label color="light" position="stacked" placeholder="Passord"
-              >Passord</ion-label
-            >
-            <ion-input
-              v-model="userDetails.password"
-              placeholder="Passord"
-              type="password"
-              color="light"
-            ></ion-input>
-          </ion-item>
-        </div>
-        <ion-button
-          @click="login"
-          v-if="!registerUser"
-          class="login-btn"
-          expand="block"
-          >Logg inn<ion-icon
-            class="icon-white"
-            :icon="logInOutline"
-            size="large"
-            slot="end"
-          ></ion-icon
-        ></ion-button>
-        <ion-button
-          @click="isNewUser"
-          v-if="!registerUser"
-          class="register-btn"
-          expand="block"
-          fill="clear"
-          >Registrer ny bruker</ion-button
-        >
-        <ion-button
-          @click="register"
-          class="margin-2"
-          v-if="registerUser"
-          expand="block"
-        >
-          Registrer
-          <ion-icon
-            :icon="enterOutline"
-            color="white"
-            size="small"
-            slot="end"
-          ></ion-icon
-        ></ion-button>
-        <ion-button
-          @click="isNewUser"
-          v-if="registerUser"
-          class="register-btn"
-          expand="block"
-          fill="clear"
-        >
-          Logg inn istedenfor</ion-button
-        >
-      </div>
+        <form>
+          <div class="login-container">
+            <ion-item v-if="registerUser">
+              <ion-label color="light" position="stacked" placeholder="Navn"
+                >Fornavn</ion-label
+              >
+              <ion-input
+                v-model="userDetails.firstName"
+                placeholder="Navn"
+                color="light"
+              ></ion-input>
+            </ion-item>
+            <ion-item v-if="registerUser">
+              <ion-label
+                color="light"
+                position="stacked"
+                placeholder="Etternavn"
+                >Etternavn</ion-label
+              >
+              <ion-input
+                v-model="userDetails.lastName"
+                placeholder="Navn"
+                color="light"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label color="light" position="stacked" placeholder="Epost"
+                >Epost</ion-label
+              >
+              <ion-input
+                v-model="userDetails.email"
+                placeholder="Epost"
+                color="light"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label color="light" position="stacked" placeholder="Passord"
+                >Passord</ion-label
+              >
+              <ion-input
+                v-model="userDetails.password"
+                placeholder="Passord"
+                type="password"
+                color="light"
+              ></ion-input>
+            </ion-item>
+          </div>
+          <ion-button
+            @click="login"
+            v-if="!registerUser"
+            class="login-btn"
+            expand="block"
+            type="submit"
+            >Logg inn<ion-icon
+              class="icon-white"
+              :icon="logInOutline"
+              size="large"
+              slot="end"
+            ></ion-icon
+          ></ion-button>
+          <ion-button
+            @click="isNewUser"
+            v-if="!registerUser"
+            class="register-btn"
+            expand="block"
+            fill="clear"
+            >Registrer ny bruker</ion-button
+          >
+          <ion-button
+            @click="register"
+            class="margin-2"
+            v-if="registerUser"
+            expand="block"
+            type="submit"
+          >
+            Registrer
+            <ion-icon
+              :icon="enterOutline"
+              color="white"
+              size="small"
+              slot="end"
+            ></ion-icon
+          ></ion-button>
+          <ion-button
+            @click="isNewUser"
+            v-if="registerUser"
+            class="register-btn"
+            expand="block"
+            fill="clear"
+          >
+            Logg inn istedenfor</ion-button
+          >
+        </form>
+      </section>
     </ion-content>
     <ion-footer>
       <TabBar></TabBar>
