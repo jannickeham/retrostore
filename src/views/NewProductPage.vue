@@ -154,9 +154,6 @@ const removeImagePreview = () => {
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar class="toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button default-href="/home"></ion-back-button>
-        </ion-buttons>
         <ion-title>Legg til ny vare</ion-title>
       </ion-toolbar>
     </ion-header>

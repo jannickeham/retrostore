@@ -48,7 +48,7 @@ const logout = async () => {
     isLoading.value = true;
     await authService.logout();
     //Go to home and don't save router history for login
-    router.replace("/home");
+    router.replace("/welcome");
     isLoading.value = false;
   } catch (error) {
     console.log(error);
@@ -59,9 +59,6 @@ const logout = async () => {
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar class="toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button default-href="/home"></ion-back-button>
-        </ion-buttons>
         <ion-title>Min profil</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -73,7 +70,7 @@ const logout = async () => {
         <div class="container">
           <ion-avatar class="profile-avatar">
             <img
-              v-if="!userInfo.avatar"
+              v-if="!userInfo.avatar && !isLoading"
               alt="Profil bilde"
               src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
             />

@@ -81,9 +81,6 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar class="toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button default-href="/home"></ion-back-button>
-        </ion-buttons>
         <ion-title router-link="/welcome" class="retro-text"
           >Retro<span>Store</span></ion-title
         >
