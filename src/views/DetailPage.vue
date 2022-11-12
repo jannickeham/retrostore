@@ -56,6 +56,7 @@ const fetchProduct = async () => {
         },
         user_created {
           first_name
+          email
         }
       }
     }
@@ -127,16 +128,17 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
       </ion-text>
       <ion-img :src="map" class="ion-margin" />
 
-      <ion-button expand="block"
-        >Kontakt selger
-        <ion-icon
-          class="icon-arrow ion-float-right"
-          :icon="chatboxEllipsesOutline"
-          size="small"
-          slot="end"
-          color="white"
-        ></ion-icon
-      ></ion-button>
+      <a :href="`mailto:${product.user_created.email}`"
+        ><ion-button expand="block"
+          >Kontakt selger
+          <ion-icon
+            class="icon-arrow ion-float-right"
+            :icon="chatboxEllipsesOutline"
+            size="small"
+            slot="end"
+            color="white"
+          ></ion-icon></ion-button
+      ></a>
     </ion-content>
     <ion-footer><TabBar></TabBar></ion-footer>
   </ion-page>
