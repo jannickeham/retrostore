@@ -28,10 +28,13 @@ import TabBar from "@/components/TabBar.vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { directus } from "@/services/directus.service";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const route = useRoute();
 
 const { id } = route.params;
+
+let isLoading = ref(false);
 
 const product = ref<IProduct | null>(null);
 //const isLoadingCampSpot = ref(true);
@@ -42,6 +45,7 @@ onIonViewDidEnter(() => {
 });
 
 const fetchProduct = async () => {
+  isLoading.value = true;
   const response = await directus.graphql.items<IProductResponse>(`
     query {
       product_by_id(id: ${id}){
@@ -62,6 +66,7 @@ const fetchProduct = async () => {
     }
    `);
   if (response.status === 200 && response.data) {
+    isLoading.value = false;
     product.value = response.data.product_by_id;
   }
 };
@@ -86,59 +91,63 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
     </ion-header>
 
     <ion-content v-if="product" :fullscreen="true">
-      <ion-img
-        :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}`"
-        class="ion-margin"
-      />
-      <ion-text>
-        <h1 class="ion-margin-start">{{ product.title }}</h1>
-      </ion-text>
-      <ion-chip class="ion-margin-start">
-        <ion-avatar>
-          <img :src="avatarImg" />
-        </ion-avatar>
-        <ion-label class="white-txt">{{
-          product.user_created.first_name
-        }}</ion-label>
-      </ion-chip>
+      <loading-spinner v-if="isLoading"></loading-spinner>
 
-      <ion-text>
-        <p class="ion-margin-start">{{ product.description }}</p>
-      </ion-text>
-      <ion-text>
-        <h2 class="ion-margin-start retro-text">{{ product.price }},-</h2>
-      </ion-text>
+      <div v-if="!isLoading">
+        <ion-img
+          :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}`"
+          class="ion-margin"
+        />
+        <ion-text>
+          <h1 class="ion-margin-start">{{ product.title }}</h1>
+        </ion-text>
+        <ion-chip class="ion-margin-start">
+          <ion-avatar>
+            <img :src="avatarImg" />
+          </ion-avatar>
+          <ion-label class="white-txt">{{
+            product.user_created.first_name
+          }}</ion-label>
+        </ion-chip>
 
-      <ion-grid>
-        <ion-row>
-          <div v-for="category in product.category" :key="category">
-            <ion-chip
-              shape="round"
-              color="primary"
+        <ion-text>
+          <p class="ion-margin-start">{{ product.description }}</p>
+        </ion-text>
+        <ion-text>
+          <h2 class="ion-margin-start retro-text">{{ product.price }},-</h2>
+        </ion-text>
+
+        <ion-grid>
+          <ion-row>
+            <div v-for="category in product.category" :key="category">
+              <ion-chip
+                shape="round"
+                color="primary"
+                size="small"
+                fill="outline"
+                >{{ category }}</ion-chip
+              >
+            </div>
+          </ion-row>
+        </ion-grid>
+
+        <ion-text>
+          <h3 class="ion-margin-start">Lokasjon</h3>
+        </ion-text>
+        <ion-img :src="map" class="ion-margin" />
+
+        <a :href="`mailto:${product.user_created.email}`"
+          ><ion-button expand="block"
+            >Kontakt selger
+            <ion-icon
+              class="icon-arrow ion-float-right"
+              :icon="chatboxEllipsesOutline"
               size="small"
-              fill="outline"
-              >{{ category }}</ion-chip
-            >
-          </div>
-        </ion-row>
-      </ion-grid>
-
-      <ion-text>
-        <h3 class="ion-margin-start">Lokasjon</h3>
-      </ion-text>
-      <ion-img :src="map" class="ion-margin" />
-
-      <a :href="`mailto:${product.user_created.email}`"
-        ><ion-button expand="block"
-          >Kontakt selger
-          <ion-icon
-            class="icon-arrow ion-float-right"
-            :icon="chatboxEllipsesOutline"
-            size="small"
-            slot="end"
-            color="white"
-          ></ion-icon></ion-button
-      ></a>
+              slot="end"
+              color="white"
+            ></ion-icon></ion-button
+        ></a>
+      </div>
     </ion-content>
     <ion-footer><TabBar></TabBar></ion-footer>
   </ion-page>
