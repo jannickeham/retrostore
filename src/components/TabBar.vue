@@ -95,7 +95,7 @@ const currentRoute = path.value;
 
 .tabbar {
   background-color: #1f1f27;
-  opacity: 0.9;
+  opacity: 0.98;
   border-radius: 10px;
   padding: 0;
 }

@@ -36,7 +36,7 @@ defineProps<Props>();
     <ion-card-header>
       <ion-card-title>{{ product.title }}</ion-card-title>
 
-      <ion-card-subtitle>
+      <ion-card-subtitle class="link">
         <ion-icon :icon="locationOutline" size="small"></ion-icon>
         {{ product.location }}
       </ion-card-subtitle>
@@ -66,6 +66,10 @@ defineProps<Props>();
 </template>
 
 <style>
+ion-card {
+  background-color: #2d2d36;
+}
+
 .card-content {
   margin-bottom: 2rem;
 }
@@ -85,6 +89,6 @@ ion-card-title {
 
 .link {
   color: #ffffff;
-  font-size: small !important;
+  font-size: 1rem !important;
 }
 </style>
