@@ -13,15 +13,18 @@ import { gameControllerOutline } from "ionicons/icons";
 
 const userAccessToken = localStorage.getItem("auth_token");
 
-const landingPageImg =
-  "https://sites.google.com/site/pacmangamearcade/_/rsrc/1472842306797/gameplay/overview/Pac-man.png?height=400&width=311";
+const image = "landingimage";
 </script>
 
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
       <div class="img-div">
-        <img class="bg-img" :src="landingPageImg" alt="" />
+        <img
+          class="bg-img"
+          :src="require(`../assets/${image}.png`)"
+          alt="Bakgrunnsbilde fra Pacman-spill"
+        />
       </div>
       <div class="center-container">
         <h1 class="title">Retro<span>Store</span></h1>

@@ -2,11 +2,7 @@
 import { IonIcon, IonGrid, IonRow, IonCol, IonButton } from "@ionic/vue";
 import {
   addCircleOutline,
-  searchOutline,
-  chatboxEllipsesOutline,
   personOutline,
-  search,
-  chatboxEllipses,
   gameControllerOutline,
   gameController,
   person,
@@ -14,24 +10,10 @@ import {
 } from "ionicons/icons";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
-import { ref } from "vue";
-//import { defineProps } from "vue";
-
-/*interface Props {
-  userAccessToken: boolean;
-}*/
-
-// How to get current routing
-//https://stackoverflow.com/questions/65989489/best-way-to-get-current-route-in-vue3-and-vue-router
 
 const route = useRoute();
-//const userAccessToken = localStorage.getItem("auth_token");
-
 const path = computed(() => route.path);
 const currentRoute = path.value;
-console.log(currentRoute);
-
-//defineProps<Props>();
 </script>
 
 <template>

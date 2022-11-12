@@ -11,6 +11,7 @@ export interface IProduct {
   user_created: {
     first_name: string;
     email: string;
+    avatar: string;
   };
 }
 

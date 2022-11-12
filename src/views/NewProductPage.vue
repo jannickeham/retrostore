@@ -248,7 +248,11 @@ const removeImagePreview = () => {
       </ion-button>
 
       <div class="image-container" v-if="newProduct.image">
-        <img class="image-preview" :src="newProduct.image" />
+        <img
+          class="image-preview"
+          :src="newProduct.image"
+          alt="Forhåndsvisning av valgt bilde"
+        />
         <ion-button
           @click="removeImagePreview"
           fill="clear"

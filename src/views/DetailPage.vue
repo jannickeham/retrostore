@@ -5,30 +5,32 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonButtons,
-  IonBackButton,
   IonImg,
   IonText,
   IonGrid,
   IonRow,
   IonButton,
   onIonViewDidEnter,
-  IonSpinner,
   IonChip,
   IonIcon,
   IonAvatar,
   IonLabel,
   IonFooter,
 } from "@ionic/vue";
-import { chatboxEllipsesOutline } from "ionicons/icons";
-import { IProduct, IProductResponse } from "@/models/ProductModels";
+import {
+  chatboxEllipsesOutline,
+  personOutline,
+  locationOutline,
+} from "ionicons/icons";
 
 import TabBar from "@/components/TabBar.vue";
+import ProductImage from "@/components/ProductImage.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import { IProduct, IProductResponse } from "@/models/ProductModels";
 
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { directus } from "@/services/directus.service";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const route = useRoute();
 
@@ -37,8 +39,6 @@ const { id } = route.params;
 let isLoading = ref(false);
 
 const product = ref<IProduct | null>(null);
-//const isLoadingCampSpot = ref(true);
-const userAccessToken = localStorage.getItem("auth_token");
 
 onIonViewDidEnter(() => {
   fetchProduct();
@@ -61,6 +61,7 @@ const fetchProduct = async () => {
         user_created {
           first_name
           email
+          
         }
       }
     }
@@ -70,11 +71,6 @@ const fetchProduct = async () => {
     product.value = response.data.product_by_id;
   }
 };
-
-const map =
-  "https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/pass/GoogleMapTA.jpg";
-
-const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
 </script>
 
 <template>
@@ -90,47 +86,53 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
     <ion-content v-if="product" :fullscreen="true">
       <loading-spinner v-if="isLoading"></loading-spinner>
 
-      <ion-img
-        :src="`https://v6a8qmt5.directus.app/assets/${product.image.id}`"
-        class="ion-margin"
-      />
-      <ion-text>
-        <h1 class="ion-margin-start">{{ product.title }}</h1>
-      </ion-text>
-      <ion-chip class="ion-margin-start">
-        <ion-avatar>
-          <img :src="avatarImg" />
-        </ion-avatar>
-        <ion-label class="white-txt">{{
-          product.user_created.first_name
-        }}</ion-label>
-      </ion-chip>
+      <product-image :image-id="product.image.id" />
 
       <ion-text>
-        <p class="ion-margin-start">{{ product.description }}</p>
-      </ion-text>
-      <ion-text>
-        <h2 class="ion-margin-start retro-text">{{ product.price }},-</h2>
+        <h1 class="margin-vertical-1">{{ product.title }}</h1>
       </ion-text>
 
-      <ion-grid>
-        <ion-row>
-          <div v-for="category in product.category" :key="category">
-            <ion-chip
-              shape="round"
-              color="primary"
-              size="small"
-              fill="outline"
-              >{{ category }}</ion-chip
-            >
-          </div>
-        </ion-row>
-      </ion-grid>
+      <div class="center-elements margin-right-10 margin-left-07">
+        <ion-chip>
+          <ion-icon :icon="personOutline" size="small"></ion-icon>
+          <ion-label class="white-txt">
+            {{ product.user_created.first_name }}
+          </ion-label>
+        </ion-chip>
+
+        <ion-chip>
+          <ion-icon :icon="locationOutline" size="small"></ion-icon>
+          <ion-label class="white-txt">
+            {{ product.location }}
+          </ion-label>
+        </ion-chip>
+      </div>
+
+      <div class="margin-left-03">
+        <ion-grid>
+          <ion-row>
+            <div v-for="category in product.category" :key="category">
+              <ion-chip
+                shape="round"
+                color="primary"
+                size="small"
+                fill="outline"
+                >{{ category }}</ion-chip
+              >
+            </div>
+          </ion-row>
+        </ion-grid>
+      </div>
 
       <ion-text>
-        <h3 class="ion-margin-start">Lokasjon</h3>
+        <p class="margin-left-07 retro-text">NOK&nbsp;{{ product.price }},-</p>
       </ion-text>
-      <ion-img :src="map" class="ion-margin" />
+
+      <ion-text>
+        <p class="margin-vertical-1 normal-text">
+          {{ product.description }}
+        </p>
+      </ion-text>
 
       <a :href="`mailto:${product.user_created.email}`"
         ><ion-button expand="block"
@@ -149,19 +151,38 @@ const avatarImg = "https://www.w3schools.com/howto/img_avatar.png";
 </template>
 
 <style>
+.margin-left-03 {
+  margin-left: 0.3rem;
+}
+
+.margin-vertical-1 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.margin-left-07 {
+  margin-left: 0.7rem;
+}
+
+.margin-right-10 {
+  margin-right: 10rem;
+}
+
+.center-elements {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 h1 {
   color: #e85112 !important;
 }
 
-ion-img::part(image) {
-  border-radius: 10px;
-}
-
-div {
-  color: #ffffff;
-}
-
 .white-txt {
   color: #ffffff !important;
+}
+
+.normal-text {
+  font-size: 1.3rem !important;
 }
 </style>

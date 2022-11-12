@@ -71,12 +71,12 @@ const logout = async () => {
           <ion-avatar class="profile-avatar">
             <img
               v-if="!userInfo.avatar && !isLoading"
-              alt="Profil bilde"
+              alt="Standardbilde for profilhaver"
               src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
             />
             <img
               v-if="userInfo.avatar"
-              alt="Profil bilde"
+              alt="Profilbilde"
               :src="`https://v6a8qmt5.directus.app/assets/${userInfo.avatar}?access_token=${userAccessToken}`"
             />
           </ion-avatar>

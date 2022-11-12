@@ -1,13 +1,5 @@
 <script setup lang="ts">
 import { IonSpinner } from "@ionic/vue";
-
-/*const loading = () => {
-  if (loader.value == false) {
-    loader.value = true;
-  } else {
-    loader.value = false;
-  }
-};*/
 </script>
 <template>
   <div>

@@ -32,6 +32,7 @@ defineProps<Props>();
 <template>
   <ion-card>
     <product-image :image-id="product.image.id" />
+
     <ion-card-header>
       <ion-card-title>{{ product.title }}</ion-card-title>
 
@@ -39,10 +40,12 @@ defineProps<Props>();
         <ion-icon :icon="locationOutline" size="small"></ion-icon>
         {{ product.location }}
       </ion-card-subtitle>
-      <ion-chip v-for="c in product.category" :key="c" color="primary">{{
-        c
-      }}</ion-chip>
+
+      <ion-chip v-for="c in product.category" :key="c" color="primary">
+        {{ c }}
+      </ion-chip>
     </ion-card-header>
+
     <ion-card-content>
       <div>
         <p class="ion-float-left retro-text">{{ product.price }},-</p>

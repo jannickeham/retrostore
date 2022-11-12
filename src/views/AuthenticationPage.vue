@@ -5,22 +5,19 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonButtons,
-  IonBackButton,
   IonItem,
   IonLabel,
   IonInput,
-  IonAvatar,
   IonButton,
   IonIcon,
   IonFooter,
 } from "@ionic/vue";
-import { authService } from "@/services/directus.service";
-import TabBar from "@/components/TabBar.vue";
 import { logInOutline, enterOutline } from "ionicons/icons";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { directus } from "@/services/directus.service";
+import { authService } from "@/services/directus.service";
+
+import TabBar from "@/components/TabBar.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const router = useRouter();
@@ -28,6 +25,7 @@ let isLoading = ref(false);
 let registerUser = ref(false);
 
 //retro mario image https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png
+const image = "retromario";
 
 const userDetails = ref({
   firstName: "",
@@ -52,7 +50,8 @@ const login = async () => {
       userDetails.value.password
     );
     isLoading.value = false;
-    //Go to home and don't save router history for login
+
+    //Go to profile and don't save router history for login
     router.replace("/profile");
   } catch (error) {
     console.log(error);
@@ -63,7 +62,7 @@ const login = async () => {
 const register = async () => {
   try {
     isLoading.value = true;
-    const wasRegistered = await authService.register(
+    await authService.register(
       userDetails.value.firstName,
       userDetails.value.lastName,
       userDetails.value.email,
@@ -92,8 +91,8 @@ const register = async () => {
         <div class="container">
           <img
             class="mario-img"
-            alt="Retro Mario Image"
-            src="https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png"
+            alt="Bilde av retro Mario"
+            :src="require(`../assets/${image}.png`)"
           />
         </div>
 
