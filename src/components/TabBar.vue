@@ -11,6 +11,7 @@ import {
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 
+//Use current route to render icon for active page
 const route = useRoute();
 const path = computed(() => route.path);
 const currentRoute = path.value;

@@ -15,27 +15,33 @@ import {
 } from "@ionic/vue";
 import { directus } from "@/services/directus.service";
 import { ref } from "vue";
+
 import ProductCard from "@/components/ProductCard.vue";
 import TabBar from "@/components/TabBar.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { IProduct, IProductsResponse } from "@/models/ProductModels";
 
+//Info which goes on the product card
 const productCardInfo = ref<IProduct[]>([]);
+
+//Variable for holding results of products from searchbar
 let results = ref(productCardInfo);
 
+//Handles if page is loading from db or not
 let isLoading = ref(false);
 
+//When View is rendered, fetch all products from db
 onIonViewDidEnter(() => {
   fetchProducts();
 });
 
-//fetch products from db when scroll down on window
+//Fetch products from db when scroll down on window
 const refreshProductView = async (event: RefresherCustomEvent) => {
   await fetchProducts();
   event.target.complete();
 };
 
-//fetch products from directus
+//Fetch all products from directus
 const fetchProducts = async () => {
   isLoading.value = true;
   const response = await directus.graphql.items<IProductsResponse>(`
@@ -54,13 +60,14 @@ const fetchProducts = async () => {
   }
 `);
 
+  //If fetching was success and contains data, put results in productCardInfo and set loading to false
   if (response.status === 200 && response.data) {
     isLoading.value = false;
     productCardInfo.value = [...response.data.product];
   }
 };
 
-//Search for products based on title
+//Search for products based on title in searchbar
 const searchForProducts = (event) => {
   const query = event.target.value.toLowerCase();
   if (!query) {

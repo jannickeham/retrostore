@@ -32,11 +32,20 @@ import { INewProduct } from "@/models/ProductModels";
 
 const router = useRouter();
 
+//Handles state of loading of page and if product is uploading
 const isUploadingProduct = ref(false);
 let isLoading = ref(false);
 
 //Keeps track of the input field for new categories
 const newCategoryText = ref("");
+
+//Handles state of errormessage when fields are not filled out
+let errorMessage = ref(false);
+
+//function for setting errormessage value to true
+const handleErrorMessage = () => {
+  errorMessage.value = true;
+};
 
 //Keeps track of all data input from user when adding new product
 const newProduct = ref<INewProduct>({
@@ -52,8 +61,8 @@ const newProduct = ref<INewProduct>({
 const addNewCategory = async () => {
   console.log(newProduct.value.category);
 
+  //Handles only adding four categories
   if (newProduct.value.category.length <= 3) {
-    //checks if no categories where added
     if (newCategoryText.value) {
       newProduct.value.category.push(newCategoryText.value);
       newCategoryText.value = "";
@@ -62,27 +71,38 @@ const addNewCategory = async () => {
     const errorToast = await toastController.create({
       message: "Du kan legge til maks fire kategorier!",
       duration: 2500,
-      position: "middle",
+      position: "bottom",
       color: "primary",
     });
     await errorToast.present();
   }
 };
 
-//Handle POST
+//Handle POSTing of new product
 const postNewProduct = async () => {
-  //If image is not chosen, show alert
+  //If image is not chosen, show toast
   if (!newProduct.value.image) {
     const errorToast = await toastController.create({
       message: "Du må laste opp et bilde!",
       duration: 2500,
-      position: "middle",
+      position: "bottom",
       color: "primary",
     });
     await errorToast.present();
   }
 
-  //Fetch the image, make it a blob, and
+  //Runs rest of post if values contain data. For preventing posting of empty products
+  if (
+    !newProduct.value.title ||
+    !newProduct.value.description ||
+    !newProduct.value.location ||
+    !newProduct.value.category ||
+    !newProduct.value.price
+  ) {
+    errorMessage.value = true;
+  }
+
+  //Fetch the image, make it a blob
   try {
     isLoading.value = true;
     isUploadingProduct.value = true;
@@ -93,7 +113,14 @@ const postNewProduct = async () => {
     formData.append("file", imageBlob);
 
     const fileUpload = await directus.files.createOne(formData);
-    if (fileUpload) {
+    if (
+      fileUpload &&
+      newProduct.value.title != "" &&
+      newProduct.value.description != "" &&
+      newProduct.value.price != "" &&
+      newProduct.value.location != "" &&
+      newProduct.value.category
+    ) {
       //If uploaded image, then make new row in product
       await directus.items("product").createOne({
         title: newProduct.value.title,
@@ -108,27 +135,31 @@ const postNewProduct = async () => {
       const successToast = await toastController.create({
         message: "Produktet ble lastet opp!",
         duration: 1500,
-        position: "middle",
+        position: "bottom",
         color: "primary",
       });
 
+      //Go to home if success
       await successToast.present();
       router.replace("/home");
     }
     isUploadingProduct.value = false;
+    isLoading.value = false;
   } catch (error) {
     const errorToast = await toastController.create({
       message: "Noe gikk galt ved opplasting!",
       duration: 2500,
-      position: "middle",
+      position: "bottom",
       color: "primary",
     });
     await errorToast.present();
     console.error(error);
     isUploadingProduct.value = false;
+    isLoading.value = false;
   }
 };
 
+//Triggers the camera
 const triggerCamera = async () => {
   //Open camera in app, best quality, no editing, and get uri
   const photo = await Camera.getPhoto({
@@ -142,7 +173,7 @@ const triggerCamera = async () => {
   }
 };
 
-// Remove image
+// Remove image from preview
 const removeImagePreview = () => {
   newProduct.value.image = "";
 };
@@ -259,6 +290,9 @@ const removeImagePreview = () => {
           >Fjern bilde
           <ion-icon slot="end" :icon="trashOutline" color="primary"></ion-icon>
         </ion-button>
+      </div>
+      <div v-if="errorMessage" class="flex-center">
+        <p class="text-primary">*Obs! Du må fylle ut alle felt</p>
       </div>
 
       <ion-button

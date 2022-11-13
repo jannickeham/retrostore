@@ -21,27 +21,30 @@ import {
   locationOutline,
 } from "ionicons/icons";
 
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+import { directus } from "@/services/directus.service";
+
 import TabBar from "@/components/TabBar.vue";
 import ProductImage from "@/components/ProductImage.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { IProduct, IProductResponse } from "@/models/ProductModels";
 
-import { ref } from "vue";
-import { useRoute } from "vue-router";
-import { directus } from "@/services/directus.service";
-
 const route = useRoute();
-
 const { id } = route.params;
 
+//Handles loading the page
 let isLoading = ref(false);
 
+//Product with interface
 const product = ref<IProduct | null>(null);
 
+//When view is rendered, run fetchProduct
 onIonViewDidEnter(() => {
   fetchProduct();
 });
 
+//Fetches product by id from directus
 const fetchProduct = async () => {
   isLoading.value = true;
   const response = await directus.graphql.items<IProductResponse>(`
@@ -64,6 +67,7 @@ const fetchProduct = async () => {
       }
     }
    `);
+  //If success and there was data, put result in product array and change loading state
   if (response.status === 200 && response.data) {
     isLoading.value = false;
     product.value = response.data.product_by_id;

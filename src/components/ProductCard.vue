@@ -38,7 +38,7 @@ defineProps<Props>();
         product.title
       }}</ion-card-title>
 
-      <ion-card-subtitle class="link text-white">
+      <ion-card-subtitle class="link text-white mb-1">
         <ion-icon
           :icon="locationOutline"
           class="icon-primary"
