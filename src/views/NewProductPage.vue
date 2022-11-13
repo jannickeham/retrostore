@@ -38,6 +38,12 @@ let isLoading = ref(false);
 //Keeps track of the input field for new categories
 const newCategoryText = ref("");
 
+let errorMessage = ref(false);
+
+const handleErrorMessage = () => {
+  errorMessage.value = true;
+};
+
 //Keeps track of all data input from user when adding new product
 const newProduct = ref<INewProduct>({
   title: "",
@@ -82,7 +88,17 @@ const postNewProduct = async () => {
     await errorToast.present();
   }
 
-  //Fetch the image, make it a blob, and
+  if (
+    !newProduct.value.title ||
+    !newProduct.value.description ||
+    !newProduct.value.location ||
+    !newProduct.value.category ||
+    !newProduct.value.price
+  ) {
+    errorMessage.value = true;
+  }
+
+  //Fetch the image, make it a blob
   try {
     isLoading.value = true;
     isUploadingProduct.value = true;
@@ -93,7 +109,14 @@ const postNewProduct = async () => {
     formData.append("file", imageBlob);
 
     const fileUpload = await directus.files.createOne(formData);
-    if (fileUpload) {
+    if (
+      fileUpload &&
+      newProduct.value.title != "" &&
+      newProduct.value.description != "" &&
+      newProduct.value.price != "" &&
+      newProduct.value.location != "" &&
+      newProduct.value.category
+    ) {
       //If uploaded image, then make new row in product
       await directus.items("product").createOne({
         title: newProduct.value.title,
@@ -108,7 +131,7 @@ const postNewProduct = async () => {
       const successToast = await toastController.create({
         message: "Produktet ble lastet opp!",
         duration: 1500,
-        position: "middle",
+        position: "bottom",
         color: "primary",
       });
 
@@ -116,16 +139,18 @@ const postNewProduct = async () => {
       router.replace("/home");
     }
     isUploadingProduct.value = false;
+    isLoading.value = false;
   } catch (error) {
     const errorToast = await toastController.create({
       message: "Noe gikk galt ved opplasting!",
       duration: 2500,
-      position: "middle",
+      position: "bottom",
       color: "primary",
     });
     await errorToast.present();
     console.error(error);
     isUploadingProduct.value = false;
+    isLoading.value = false;
   }
 };
 
@@ -259,6 +284,9 @@ const removeImagePreview = () => {
           >Fjern bilde
           <ion-icon slot="end" :icon="trashOutline" color="primary"></ion-icon>
         </ion-button>
+      </div>
+      <div v-if="errorMessage" class="flex-center">
+        <p class="text-primary">*Obs! Du må fylle ut alle felt</p>
       </div>
 
       <ion-button
