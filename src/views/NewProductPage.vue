@@ -8,8 +8,6 @@ import {
   IonTitle,
   IonToolbar,
   IonButton,
-  IonButtons,
-  IonBackButton,
   IonItem,
   IonInput,
   IonLabel,
@@ -202,7 +200,7 @@ const removeImagePreview = () => {
         ></ion-textarea>
       </ion-item>
 
-      <ion-item lines="none">
+      <ion-item>
         <ion-label position="stacked" placeholder="Kategori" color="light"
           >Kategori</ion-label
         >
@@ -231,11 +229,12 @@ const removeImagePreview = () => {
         >
       </ion-item>
 
+      <p class="margin-vertical-103 normal-text">Bilde</p>
       <ion-button
         v-if="!newProduct.image"
         @click="triggerCamera"
         color="#535569"
-        class="image-picker"
+        class="image-picker margin-vertical-1"
         expand="block"
       >
         Velg fil eller ta bilde
@@ -255,14 +254,18 @@ const removeImagePreview = () => {
         />
         <ion-button
           @click="removeImagePreview"
-          fill="clear"
-          class="remove-image-preview-btn"
+          fill="outline"
+          class="remove-image-preview-btn text-white"
           >Fjern bilde
           <ion-icon slot="end" :icon="trashOutline" color="primary"></ion-icon>
         </ion-button>
       </div>
 
-      <ion-button v-if="!isLoading" @click="postNewProduct" expand="block"
+      <ion-button
+        v-if="!isLoading"
+        @click="postNewProduct"
+        class="margin-vertical-1"
+        expand="block"
         >Lagre
         <ion-icon
           :icon="saveOutline"
@@ -271,7 +274,7 @@ const removeImagePreview = () => {
           color="white"
         ></ion-icon
       ></ion-button>
-      <div v-if="isLoading" class="upload-spinner-container">
+      <div v-if="isLoading" class="flex-center">
         <ion-spinner
           class="upload-spinner"
           name="crescent"
@@ -285,39 +288,4 @@ const removeImagePreview = () => {
   </ion-page>
 </template>
 
-<style>
-.remove-image-preview-btn {
-  position: relative;
-  left: 60%;
-}
-
-.image-container {
-  margin-left: 0.7rem;
-  margin-right: 0.7rem;
-  margin-bottom: 2rem;
-}
-
-.image-preview {
-  border-radius: 10px;
-}
-
-.upload-spinner-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.image-picker {
-  height: 20vh;
-  margin: 10px;
-  border: 2px #535569 dashed;
-  background-color: #535569;
-  font-size: medium;
-  color: #ffffff;
-  border-radius: 10px;
-}
-
-ion-item {
-  margin-top: 1rem !important;
-}
-</style>
+<style></style>
