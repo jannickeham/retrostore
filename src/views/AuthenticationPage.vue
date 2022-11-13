@@ -88,29 +88,29 @@ const register = async () => {
     <ion-content :fullscreen="true">
       <loading-spinner v-if="isLoading"></loading-spinner>
       <section v-if="!isLoading">
-        <div class="container">
+        <div class="flex-center">
           <img
-            class="mario-img"
+            class="login-img"
             alt="Bilde av retro Mario"
             :src="require(`../assets/${image}.png`)"
           />
         </div>
 
-        <div class="title-container retro-text" v-if="!registerUser">
+        <div class="flex-center margin-0 retro-text" v-if="!registerUser">
           <h1>Logg inn</h1>
         </div>
-        <div class="title-container retro-text" v-if="registerUser">
+        <div class="flex-center margin-0 retro-text" v-if="registerUser">
           <h1>Registrer deg</h1>
         </div>
         <form>
-          <div class="login-container">
+          <div class="mr-2">
             <ion-item v-if="registerUser">
-              <ion-label color="light" position="stacked" placeholder="Navn"
+              <ion-label color="light" position="stacked" placeholder="Fornavn"
                 >Fornavn</ion-label
               >
               <ion-input
                 v-model="userDetails.firstName"
-                placeholder="Navn"
+                placeholder="Fornavn"
                 color="light"
               ></ion-input>
             </ion-item>
@@ -123,7 +123,7 @@ const register = async () => {
               >
               <ion-input
                 v-model="userDetails.lastName"
-                placeholder="Navn"
+                placeholder="Etternavn"
                 color="light"
               ></ion-input>
             </ion-item>
@@ -152,7 +152,7 @@ const register = async () => {
           <ion-button
             @click="login"
             v-if="!registerUser"
-            class="login-btn"
+            class="mt-5 text-deco-none margin-vertical-1"
             expand="block"
             type="submit"
             >Logg inn<ion-icon
@@ -165,14 +165,14 @@ const register = async () => {
           <ion-button
             @click="isNewUser"
             v-if="!registerUser"
-            class="register-btn"
+            class="secondary-btn margin-vertical-1"
             expand="block"
             fill="clear"
             >Registrer ny bruker</ion-button
           >
           <ion-button
             @click="register"
-            class="margin-2"
+            class="mt-1 margin-vertical-1"
             v-if="registerUser"
             expand="block"
             type="submit"
@@ -181,14 +181,14 @@ const register = async () => {
             <ion-icon
               :icon="enterOutline"
               color="white"
-              size="small"
+              size="large"
               slot="end"
             ></ion-icon
           ></ion-button>
           <ion-button
             @click="isNewUser"
             v-if="registerUser"
-            class="register-btn"
+            class="secondary-btn margin-vertical-1"
             expand="block"
             fill="clear"
           >
@@ -203,49 +203,4 @@ const register = async () => {
   </ion-page>
 </template>
 
-<style>
-.title-container {
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.margin-2 {
-  margin-top: 1rem;
-}
-
-.icon-primary {
-  color: #e85112;
-}
-
-.login-btn {
-  margin-top: 5rem;
-  text-decoration: none !important;
-}
-
-.mario-img {
-  width: 7rem;
-  height: auto;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0 !important;
-}
-
-.login-container {
-  margin-right: 2rem;
-}
-
-span {
-  color: #e85112;
-}
-
-.register-btn {
-  text-decoration: underline;
-  color: #ffffff;
-}
-</style>
+<style></style>

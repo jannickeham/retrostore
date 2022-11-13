@@ -30,14 +30,20 @@ defineProps<Props>();
 </script>
 
 <template>
-  <ion-card>
+  <ion-card class="card">
     <product-image :image-id="product.image.id" />
 
     <ion-card-header>
-      <ion-card-title>{{ product.title }}</ion-card-title>
+      <ion-card-title class="mb-1 text-white">{{
+        product.title
+      }}</ion-card-title>
 
-      <ion-card-subtitle class="link">
-        <ion-icon :icon="locationOutline" size="small"></ion-icon>
+      <ion-card-subtitle class="link text-white">
+        <ion-icon
+          :icon="locationOutline"
+          class="icon-primary"
+          size="small"
+        ></ion-icon>
         {{ product.location }}
       </ion-card-subtitle>
 
@@ -50,11 +56,11 @@ defineProps<Props>();
       <div>
         <p class="ion-float-left retro-text">{{ product.price }},-</p>
         <ion-button
-          class="ion-float-right link"
+          class="ion-float-right link text-white"
           fill="clear"
           :router-link="'/detail/' + product.id"
           >Se annonse<ion-icon
-            class="icon-arrow ion-float-right"
+            class="icon-arrow ion-float-right icon-primary"
             :icon="arrowForwardCircleOutline"
             size="large"
             slot="end"
@@ -65,30 +71,4 @@ defineProps<Props>();
   </ion-card>
 </template>
 
-<style>
-ion-card {
-  background-color: #2d2d36;
-}
-
-.card-content {
-  margin-bottom: 2rem;
-}
-
-ion-icon {
-  color: #e85112;
-}
-
-ion-card-subtitle {
-  color: #ffffff;
-}
-
-ion-card-title {
-  color: #ffffff;
-  margin-bottom: 1rem !important;
-}
-
-.link {
-  color: #ffffff;
-  font-size: 1rem !important;
-}
-</style>
+<style></style>

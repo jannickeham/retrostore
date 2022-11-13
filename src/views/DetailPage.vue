@@ -5,7 +5,6 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonImg,
   IonText,
   IonGrid,
   IonRow,
@@ -13,7 +12,6 @@ import {
   onIonViewDidEnter,
   IonChip,
   IonIcon,
-  IonAvatar,
   IonLabel,
   IonFooter,
 } from "@ionic/vue";
@@ -89,26 +87,34 @@ const fetchProduct = async () => {
       <product-image :image-id="product.image.id" />
 
       <ion-text>
-        <h1 class="margin-vertical-1">{{ product.title }}</h1>
+        <h1 class="margin-vertical-103 text-white">{{ product.title }}</h1>
       </ion-text>
 
-      <div class="center-elements margin-right-10 margin-left-07">
+      <div class="flex-center mr-10">
         <ion-chip>
-          <ion-icon :icon="personOutline" size="small"></ion-icon>
+          <ion-icon
+            :icon="personOutline"
+            size="small"
+            class="icon-primary"
+          ></ion-icon>
           <ion-label class="white-txt">
             {{ product.user_created.first_name }}
           </ion-label>
         </ion-chip>
 
         <ion-chip>
-          <ion-icon :icon="locationOutline" size="small"></ion-icon>
+          <ion-icon
+            :icon="locationOutline"
+            size="small"
+            class="icon-primary"
+          ></ion-icon>
           <ion-label class="white-txt">
             {{ product.location }}
           </ion-label>
         </ion-chip>
       </div>
 
-      <div class="margin-left-03">
+      <div class="ml-03">
         <ion-grid>
           <ion-row>
             <div v-for="category in product.category" :key="category">
@@ -125,17 +131,17 @@ const fetchProduct = async () => {
       </div>
 
       <ion-text>
-        <p class="margin-left-07 retro-text">NOK&nbsp;{{ product.price }},-</p>
+        <p class="ml-07 retro-text">NOK&nbsp;{{ product.price }},-</p>
       </ion-text>
 
       <ion-text>
-        <p class="margin-vertical-1 normal-text">
+        <p class="margin-vertical-103 normal-text">
           {{ product.description }}
         </p>
       </ion-text>
 
       <a :href="`mailto:${product.user_created.email}`"
-        ><ion-button expand="block"
+        ><ion-button expand="block" class="margin-vertical-1"
           >Kontakt selger
           <ion-icon
             class="icon-arrow ion-float-right"
@@ -150,39 +156,4 @@ const fetchProduct = async () => {
   </ion-page>
 </template>
 
-<style>
-.margin-left-03 {
-  margin-left: 0.3rem;
-}
-
-.margin-vertical-1 {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.margin-left-07 {
-  margin-left: 0.7rem;
-}
-
-.margin-right-10 {
-  margin-right: 10rem;
-}
-
-.center-elements {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-h1 {
-  color: #e85112 !important;
-}
-
-.white-txt {
-  color: #ffffff !important;
-}
-
-.normal-text {
-  font-size: 1.3rem !important;
-}
-</style>
+<style></style>
