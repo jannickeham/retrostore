@@ -207,10 +207,14 @@ span {
 }
 
 .mr-10 {
-  margin-right: 10rem;
+  margin-right: 10.5rem;
 }
 
 /* Left */
+.ml-0 {
+  margin-left: 0;
+}
+
 .ml-03 {
   margin-left: 0.3rem;
 }

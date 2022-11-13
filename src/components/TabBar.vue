@@ -21,11 +21,7 @@ const currentRoute = path.value;
   <ion-grid :fixed="true">
     <ion-row class="tabbar ion-align-items-center ion-justify-items-center">
       <ion-col class="col">
-        <ion-button
-          class="column-item-pos"
-          router-link="/home"
-          fill="clear"
-          size="small"
+        <ion-button class="flex" router-link="/home" fill="clear" size="small"
           ><ion-icon
             v-if="currentRoute != '/home'"
             :icon="gameControllerOutline"
@@ -89,4 +85,10 @@ const currentRoute = path.value;
   </ion-grid>
 </template>
 
-<style></style>
+<style>
+.md col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
