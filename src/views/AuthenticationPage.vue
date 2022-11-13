@@ -26,6 +26,8 @@ let registerUser = ref(false);
 
 //retro mario image https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png
 const image = "retromario";
+let validationError = ref(false);
+let registerError = ref(false);
 
 const userDetails = ref({
   firstName: "",
@@ -33,6 +35,13 @@ const userDetails = ref({
   email: "",
   password: "",
 });
+
+const handleValidationErrorMessage = () => {
+  validationError.value = true;
+};
+const handleRegisterErrorMessage = () => {
+  registerError.value = true;
+};
 
 const isNewUser = () => {
   if (registerUser.value == false) {
@@ -55,7 +64,9 @@ const login = async () => {
     router.replace("/profile");
   } catch (error) {
     console.log(error);
+    console.log("her");
     isLoading.value = false;
+    handleValidationErrorMessage();
   }
 };
 
@@ -72,6 +83,7 @@ const register = async () => {
   } catch (error) {
     console.log(error);
     isLoading.value = false;
+    handleRegisterErrorMessage();
   }
 };
 </script>
@@ -148,6 +160,12 @@ const register = async () => {
                 color="light"
               ></ion-input>
             </ion-item>
+            <div v-if="validationError" class="flex-center">
+              <p class="text-primary">*Obs! Brukernavn eller passord er feil</p>
+            </div>
+            <div v-if="registerError" class="flex-center">
+              <p class="text-primary">*Obs! Du må fylle ut alle felt</p>
+            </div>
           </div>
           <ion-button
             @click="login"
