@@ -67,7 +67,7 @@ const logout = async () => {
       <loading-spinner v-if="isLoading"></loading-spinner>
 
       <div v-if="!isLoading">
-        <div class="container">
+        <div class="container flex-center">
           <ion-avatar class="profile-avatar">
             <img
               v-if="!userInfo.avatar && !isLoading"
@@ -90,10 +90,13 @@ const logout = async () => {
           <p>{{ userInfo.email }}</p>
         </div>
 
-        <ion-button class="logout-btn" @click="logout" expand="block"
+        <ion-button
+          class="mt-5 margin-vertical-1"
+          @click="logout"
+          expand="block"
           >Logg ut
           <ion-icon
-            class="icon-white"
+            color="white"
             :icon="logOutOutline"
             size="large"
             slot="end"
@@ -107,32 +110,4 @@ const logout = async () => {
   </ion-page>
 </template>
 
-<style>
-.profile-avatar {
-  width: 10rem !important;
-  height: 10rem !important;
-  margin-bottom: 2rem;
-}
-
-.profile-name {
-  color: #e85112 !important;
-  margin: 0 !important;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
-.icon-white {
-  color: #ffffff !important;
-}
-
-.logout-btn {
-  margin-top: 5rem;
-}
-</style>
+<style></style>

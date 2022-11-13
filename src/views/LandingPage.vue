@@ -26,9 +26,9 @@ const image = "landingimage";
           alt="Bakgrunnsbilde fra Pacman-spill"
         />
       </div>
-      <div class="center-container">
+      <div class="center-pos">
         <h1 class="title">Retro<span>Store</span></h1>
-        <h4 class="text-landing">
+        <h4 class="text-center">
           Velkommen til Norges største marked for retrospill og konsoller
         </h4>
       </div>
@@ -49,60 +49,4 @@ const image = "landingimage";
   </ion-page>
 </template>
 
-<style>
-.login-btn {
-  text-decoration: underline;
-  color: #ffffff;
-}
-
-.text-landing {
-  text-align: center;
-}
-
-.img-div {
-  width: 100%;
-  height: 100%;
-}
-
-.bg-img {
-  filter: blur(0.2rem) grayscale(0.6);
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-  opacity: 0.2;
-}
-
-span {
-  color: #e85112;
-}
-
-.title {
-  font-size: 2.5rem;
-  font-family: "RetroGaming";
-  z-index: 10;
-  color: #ffffff !important;
-}
-
-.center-container {
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.center-btn {
-  display: flex;
-  flex-direction: column;
-}
-
-.button-container {
-  position: absolute;
-  top: 65%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.margin-top-5 {
-  margin-top: 5rem;
-}
-</style>
+<style></style>

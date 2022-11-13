@@ -84,10 +84,10 @@ const searchForProducts = (event) => {
 
     <ion-content :fullscreen="true">
       <ion-searchbar
-        class="search-bar"
+        class="white"
         animated
         placeholder="Søk"
-        :debounce="1000"
+        :debounce="500"
         @ionChange="searchForProducts($event)"
       ></ion-searchbar>
 
@@ -122,8 +122,4 @@ const searchForProducts = (event) => {
   </ion-page>
 </template>
 
-<style>
-.search-bar {
-  color: #ffffff;
-}
-</style>
+<style></style>
