@@ -1,18 +1,8 @@
 <script setup lang="ts">
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonButton,
-} from "@ionic/vue";
-
-import TabBar from "@/components/TabBar.vue";
+import { IonContent, IonPage, IonButton } from "@ionic/vue";
 import { gameControllerOutline } from "ionicons/icons";
 
-const userAccessToken = localStorage.getItem("auth_token");
-
+//backgound image
 const image = "landingimage";
 </script>
 

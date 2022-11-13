@@ -32,14 +32,17 @@ import { INewProduct } from "@/models/ProductModels";
 
 const router = useRouter();
 
+//Handles state of loading of page and if product is uploading
 const isUploadingProduct = ref(false);
 let isLoading = ref(false);
 
 //Keeps track of the input field for new categories
 const newCategoryText = ref("");
 
+//Handles state of errormessage when fields are not filled out
 let errorMessage = ref(false);
 
+//function for setting errormessage value to true
 const handleErrorMessage = () => {
   errorMessage.value = true;
 };
@@ -58,8 +61,8 @@ const newProduct = ref<INewProduct>({
 const addNewCategory = async () => {
   console.log(newProduct.value.category);
 
+  //Handles only adding four categories
   if (newProduct.value.category.length <= 3) {
-    //checks if no categories where added
     if (newCategoryText.value) {
       newProduct.value.category.push(newCategoryText.value);
       newCategoryText.value = "";
@@ -68,26 +71,27 @@ const addNewCategory = async () => {
     const errorToast = await toastController.create({
       message: "Du kan legge til maks fire kategorier!",
       duration: 2500,
-      position: "middle",
+      position: "bottom",
       color: "primary",
     });
     await errorToast.present();
   }
 };
 
-//Handle POST
+//Handle POSTing of new product
 const postNewProduct = async () => {
-  //If image is not chosen, show alert
+  //If image is not chosen, show toast
   if (!newProduct.value.image) {
     const errorToast = await toastController.create({
       message: "Du må laste opp et bilde!",
       duration: 2500,
-      position: "middle",
+      position: "bottom",
       color: "primary",
     });
     await errorToast.present();
   }
 
+  //Runs rest of post if values contain data. For preventing posting of empty products
   if (
     !newProduct.value.title ||
     !newProduct.value.description ||
@@ -135,6 +139,7 @@ const postNewProduct = async () => {
         color: "primary",
       });
 
+      //Go to home if success
       await successToast.present();
       router.replace("/home");
     }
@@ -154,6 +159,7 @@ const postNewProduct = async () => {
   }
 };
 
+//Triggers the camera
 const triggerCamera = async () => {
   //Open camera in app, best quality, no editing, and get uri
   const photo = await Camera.getPhoto({
@@ -167,7 +173,7 @@ const triggerCamera = async () => {
   }
 };
 
-// Remove image
+// Remove image from preview
 const removeImagePreview = () => {
   newProduct.value.image = "";
 };

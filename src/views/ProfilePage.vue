@@ -12,25 +12,32 @@ import {
   onIonViewDidEnter,
 } from "@ionic/vue";
 import { logOutOutline } from "ionicons/icons";
-import TabBar from "@/components/TabBar.vue";
+
 import { authService } from "@/services/directus.service";
 import { useRouter } from "vue-router";
 import { directus } from "@/services/directus.service";
 import { ref } from "vue";
+
+import TabBar from "@/components/TabBar.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const userAccessToken = localStorage.getItem("auth_token");
+
+//Handles state of loading of user
 let isLoading = ref(false);
 
 const router = useRouter();
 
+//Array containing userinfo
 let userInfo = ref([]);
 
+//When view renders, load and get the current user
 onIonViewDidEnter(async () => {
   isLoading.value = true;
   await currentUser();
 });
 
+//Get the current logged in user
 const currentUser = async () => {
   try {
     const response = await authService.currentUser();
@@ -41,6 +48,7 @@ const currentUser = async () => {
   }
 };
 
+//Logs out current user
 const logout = async () => {
   try {
     isLoading.value = true;

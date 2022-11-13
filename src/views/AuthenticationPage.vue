@@ -13,6 +13,7 @@ import {
   IonFooter,
 } from "@ionic/vue";
 import { logInOutline, enterOutline } from "ionicons/icons";
+
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { authService } from "@/services/directus.service";
@@ -21,14 +22,23 @@ import TabBar from "@/components/TabBar.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const router = useRouter();
+
+//For handleling spinner if page is loading
 let isLoading = ref(false);
+
+//For handleling if user wants to login or register
 let registerUser = ref(false);
 
-//retro mario image https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png
+//Retro mario image https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-2-icon.png
 const image = "retromario";
+
+//For handleling if user has not filled all fields or something went wrong during login
 let validationError = ref(false);
+
+//For handleling if new user has not filled all fields
 let registerError = ref(false);
 
+//Fields for user data
 const userDetails = ref({
   firstName: "",
   lastName: "",
@@ -36,6 +46,7 @@ const userDetails = ref({
   password: "",
 });
 
+//Handles error messages UI
 const handleValidationErrorMessage = () => {
   validationError.value = true;
 };
@@ -43,6 +54,7 @@ const handleRegisterErrorMessage = () => {
   registerError.value = true;
 };
 
+//Checks and handles state of registerUser
 const isNewUser = () => {
   if (registerUser.value == false) {
     registerUser.value = true;
@@ -51,6 +63,7 @@ const isNewUser = () => {
   }
 };
 
+//Login function for user login
 const login = async () => {
   try {
     isLoading.value = true;
@@ -58,18 +71,20 @@ const login = async () => {
       userDetails.value.email,
       userDetails.value.password
     );
+
+    //Set state to false when finished logging in
     isLoading.value = false;
 
     //Go to profile and don't save router history for login
     router.replace("/profile");
   } catch (error) {
     console.log(error);
-    console.log("her");
     isLoading.value = false;
     handleValidationErrorMessage();
   }
 };
 
+//Register new user function
 const register = async () => {
   try {
     isLoading.value = true;
@@ -79,6 +94,7 @@ const register = async () => {
       userDetails.value.email,
       userDetails.value.password
     );
+    //Run login when register user is complete
     await login();
   } catch (error) {
     console.log(error);
