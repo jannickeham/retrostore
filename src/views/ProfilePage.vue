@@ -5,8 +5,6 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonButtons,
-  IonBackButton,
   IonAvatar,
   IonButton,
   IonIcon,
@@ -72,7 +70,7 @@ const logout = async () => {
             <img
               v-if="!userInfo.avatar && !isLoading"
               alt="Standardbilde for profilhaver"
-              src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+              src="https://ionicframework.com/docs/img/demos/avatar.svg"
             />
             <img
               v-if="userInfo.avatar"
