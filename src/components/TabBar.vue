@@ -18,7 +18,7 @@ const currentRoute = path.value;
 </script>
 
 <template>
-  <ion-grid :fixed="true">
+  <ion-grid :fixed="true" class="tabbar-grid">
     <ion-row class="tabbar ion-align-items-center ion-justify-items-center">
       <ion-col class="col">
         <ion-button class="flex" router-link="/home" fill="clear" size="small"
